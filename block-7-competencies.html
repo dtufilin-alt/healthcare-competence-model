@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Понятно объяснять решения, слышать позиции участников, согласовывать интересы и поддерживать доверие при изменениях и сложных ситуациях.">
+<meta name="theme-color" content="#f5f6f8">
+<title>Коммуникации и влияние · Блок 7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --text: #1a1d23;
+    --muted: #5c6570;
+    --border: #e2e5ea;
+    --ok: #0d7a4f;
+    --ok-bg: #e8f5ef;
+    --warn: #9a6700;
+    --warn-bg: #fff8e6;
+    --danger: #b42318;
+    --danger-bg: #fef3f2;
+    --accent: #1f4e79;
+    --nav-w: 260px;
+    --max: 1520px;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 1.48;
+    color: var(--text);
+    background: var(--bg);
+  }
+  .page {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 18px 20px 56px;
+    display: grid;
+    grid-template-columns: var(--nav-w) 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  header {
+    grid-column: 1 / -1;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+  }
+  header h1 {
+    font-size: 16.5px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 3px;
+  }
+  header .sub { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+  header .meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 7px; }
+  .badge {
+    display: inline-flex; align-items: center;
+    padding: 3px 8px; border-radius: 6px;
+    font-size: 10.5px; font-weight: 600;
+  }
+  .badge-ok { background: var(--ok-bg); color: var(--ok); }
+  .badge-warn { background: var(--warn-bg); color: var(--warn); }
+  .badge-danger { background: var(--danger-bg); color: var(--danger); }
+  .badge-muted { background: #eef0f3; color: var(--muted); }
+
+  nav {
+    position: sticky; top: 10px;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 10px 8px;
+    box-shadow: var(--shadow);
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+  }
+  nav a {
+    display: block;
+    padding: 4px 8px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 10.5px;
+    font-weight: 500;
+    border-radius: 5px;
+    margin-bottom: 1px;
+  }
+  nav a:hover { color: var(--text); background: #f0f2f5; }
+  nav a.active { color: var(--text); font-weight: 600; }
+  nav .nav-group {
+    font-size: 9.5px; font-weight: 600; color: #9aa3ad;
+    text-transform: uppercase; letter-spacing: .04em;
+    padding: 8px 8px 3px; margin-top: 4px;
+  }
+
+  main { min-width: 0; }
+  section {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 15px 17px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  section h2 {
+    font-size: 13px; font-weight: 700;
+    margin-bottom: 9px; letter-spacing: -0.01em;
+  }
+  section h3 {
+    font-size: 11.5px; font-weight: 600;
+    margin: 12px 0 5px; color: var(--text);
+  }
+  section h4 {
+    font-size: 11px; font-weight: 600;
+    margin: 8px 0 4px; color: var(--muted);
+  }
+  p, li { font-size: 11.5px; color: var(--text); }
+  ul, ol { padding-left: 16px; margin: 5px 0; }
+  li { margin-bottom: 2.5px; }
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 11px; margin: 7px 0;
+  }
+  th, td {
+    text-align: left; padding: 5px 7px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    background: #f0f2f5; font-weight: 600;
+    font-size: 10.5px; color: var(--muted);
+  }
+  code, .mono {
+    font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 10.5px;
+    background: #f0f2f5;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  .callout {
+    border-radius: 8px; padding: 9px 11px;
+    margin: 8px 0; font-size: 11.5px;
+  }
+  .callout-ok { background: var(--ok-bg); color: #0a5c3a; }
+  .callout-warn { background: var(--warn-bg); color: #7a5200; }
+  .callout-danger { background: var(--danger-bg); color: #912018; }
+  .callout strong { font-weight: 600; }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px; margin: 8px 0;
+  }
+  .cards-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card {
+    background: #f8f9fb; border-radius: 8px; padding: 11px;
+  }
+  .card h4 { font-size: 11.5px; font-weight: 600; margin-bottom: 5px; color: var(--text); }
+  .card p, .card li { font-size: 11px; color: var(--muted); }
+  .modal-trigger {
+    background: none; border: none;
+    color: var(--accent); text-decoration: underline;
+    cursor: pointer; font-family: inherit;
+    font-size: 11.5px; font-weight: 500; padding: 0;
+  }
+  .modal-trigger:hover { opacity: 0.8; }
+  .flow {
+    display: flex; flex-wrap: wrap; gap: 5px;
+    align-items: center; margin: 8px 0; font-size: 11px;
+  }
+  .flow-step {
+    background: #eef1f5; padding: 4px 9px;
+    border-radius: 6px; font-weight: 500;
+  }
+  .flow-arrow { color: var(--muted); font-size: 11px; }
+  .two-col {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin: 8px 0;
+  }
+  footer {
+    grid-column: 1 / -1;
+    text-align: center; padding: 12px;
+    font-size: 10.5px; color: var(--muted);
+  }
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.42); z-index: 100;
+    align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border-radius: 12px;
+    max-width: 760px; width: 100%; max-height: 88vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 40px rgba(0,0,0,.15);
+  }
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .modal-header h3 { font-size: 12.5px; font-weight: 600; }
+  .modal-close {
+    background: none; border: none; font-size: 20px;
+    cursor: pointer; color: var(--muted); line-height: 1; padding: 0 4px;
+  }
+  .modal-body {
+    padding: 14px 16px; overflow-y: auto; font-size: 11.5px;
+  }
+  .modal-body pre {
+    white-space: pre-wrap;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 10.5px; background: #f6f7f9;
+    padding: 11px; border-radius: 6px; line-height: 1.4;
+  }
+  .modal-body table { font-size: 10.5px; }
+  .modal-body h4 { font-size: 11.5px; font-weight: 600; margin: 10px 0 5px; }
+  @media (max-width: 780px) {
+    .page { grid-template-columns: 1fr; }
+    nav { position: static; max-height: none; }
+    .cards, .cards-3, .two-col { grid-template-columns: 1fr; }
+  }
+
+/* ===== дополнения: элементы, которых не было в исходном отчёте ===== */
+
+/* --- вертикальный ритм: в исходном CSS `* { margin: 0 }` съедал абзацы --- */
+section p { margin: 0 0 9px; }
+section p:last-child { margin-bottom: 0; }
+section li { margin-bottom: 4px; }
+section ul, section ol { margin: 7px 0 11px; padding-left: 18px; }
+section li > ul, section li > ol { margin: 3px 0 4px; }
+section > *:first-child { margin-top: 0; }
+section > *:last-child { margin-bottom: 0; }
+
+section h2 { margin: 0 0 11px; }
+section h3 { margin: 18px 0 7px; }
+section h4 { margin: 14px 0 6px; }
+section h3:first-child, section h4:first-child { margin-top: 0; }
+
+/* текстовая колонка не растягивается на всю ширину — читаемая длина строки */
+section p, section ul, section ol, section blockquote { max-width: 96ch; }
+
+/* таблицы дышат */
+section table { margin: 10px 0 12px; }
+th, td { padding: 6px 9px; }
+
+
+/* контент из markdown внутри section */
+section h2:not(:first-child) { margin-top: 16px; }
+section > h3:first-child, section > h4:first-child { margin-top: 0; }
+section p + h3, section table + h3, section ul + h3 { margin-top: 14px; }
+section hr { border: 0; border-top: 1px solid var(--border); margin: 14px 0; }
+section blockquote {
+  margin: 8px 0; padding: 7px 11px;
+  background: #f8f9fb; border-left: 3px solid var(--accent);
+  font-size: 11.5px; color: var(--muted);
+}
+section pre {
+  background: #f6f7f9; border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px 12px; overflow-x: auto; margin: 8px 0;
+  font-family: 'SF Mono','Consolas','Menlo',monospace;
+  font-size: 10.5px; line-height: 1.45; color: var(--text);
+}
+section pre code { background: none; padding: 0; font-size: 10.5px; }
+strong { font-weight: 600; }
+.tablewrap { overflow-x: auto; margin: 10px 0 12px; }
+.tablewrap table { margin: 0; }
+td code { font-size: 10px; }
+
+/* перекрёстные ссылки */
+a { color: var(--accent); }
+a.xref {
+  text-decoration: none; border-bottom: 1px solid #cfdae6;
+  white-space: nowrap; font-weight: 500;
+}
+a.xref:hover { background: #eaf0f6; border-bottom-color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* статусные пилюли в таблицах — те же токены, что у .badge */
+.pill {
+  display: inline-block; padding: 2px 7px; border-radius: 5px;
+  font-size: 10px; font-weight: 600; white-space: nowrap;
+}
+.pill.ok { background: var(--ok-bg); color: var(--ok); }
+.pill.defer { background: var(--warn-bg); color: var(--warn); }
+.pill.reject { background: var(--danger-bg); color: var(--danger); }
+.pill.open { background: #eaf0f6; color: var(--accent); }
+
+/* панель словаря терминов */
+.gl-btn {
+  position: fixed; right: 14px; bottom: 14px; z-index: 40;
+  font-family: inherit; font-size: 11px; font-weight: 600;
+  background: var(--text); color: #fff; border: 0;
+  padding: 8px 13px; border-radius: 7px; cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,.18);
+}
+.gl-btn:hover { background: var(--accent); }
+.gl-panel {
+  position: fixed; inset: 0 0 0 auto; width: min(560px, 94vw);
+  background: var(--surface); z-index: 110; transform: translateX(100%);
+  transition: transform .2s ease; overflow-y: auto;
+  padding: 14px 18px 48px; box-shadow: -8px 0 30px rgba(0,0,0,.14);
+}
+.gl-panel.open { transform: translateX(0); }
+.gl-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 10px;
+}
+.gl-head h3 { font-size: 12.5px; font-weight: 600; }
+.gl-close {
+  background: none; border: 0; font-size: 20px; cursor: pointer;
+  color: var(--muted); line-height: 1; padding: 0 4px;
+}
+.gl-panel h3 { font-size: 11.5px; font-weight: 600; margin: 14px 0 5px; }
+.gl-panel table { font-size: 10.5px; }
+.gl-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 105;
+  opacity: 0; pointer-events: none; transition: opacity .18s;
+}
+.gl-backdrop.on { opacity: 1; pointer-events: auto; }
+
+/* навигация: группы и вложенность */
+nav a.nav-l2 { padding-left: 18px; font-size: 10px; }
+.navtoggle { display: none; }
+
+@media (max-width: 780px) {
+  .navtoggle {
+    display: block; position: fixed; left: 14px; bottom: 14px; z-index: 40;
+    font-family: inherit; font-size: 11px; font-weight: 600;
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--border); padding: 8px 12px;
+    border-radius: 7px; cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+@media print {
+  nav, .gl-btn, .gl-panel, .gl-backdrop, .navtoggle { display: none !important; }
+  .page { display: block; max-width: none; padding: 0; }
+  section { box-shadow: none; border: 1px solid var(--border); page-break-inside: auto; }
+  table { page-break-inside: avoid; }
+  pre { white-space: pre-wrap; }
+}
+
+/* Оформление блока компетенций на основе эталона Дениса. */
+:root{--nav-w:244px;--max:1400px;--blue-bg:#edf3f8}
+html{scroll-padding-top:22px}
+body{line-height:1.6}
+.page{padding:24px 24px 32px}
+header{border-top:3px solid var(--accent);padding:22px 25px 20px}
+.hero-top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:11px}
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:.065em;text-transform:uppercase;color:var(--muted)}
+header h1{font-size:clamp(19px,2.1vw,25px);line-height:1.3;letter-spacing:-.035em;margin-bottom:6px}
+header .sub{font-size:12px}
+header .meta{margin-top:14px}
+.badge-blue{background:var(--blue-bg);color:var(--accent)}
+.intro{margin-top:14px;padding-top:13px;border-top:1px solid var(--border);max-width:108ch;line-height:1.7}
+.print{font:600 10px 'Montserrat',system-ui,sans-serif;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:white;color:var(--accent);cursor:pointer;white-space:nowrap}
+.print:hover{background:var(--blue-bg)}
+nav{padding:14px 10px}
+nav a{padding:6px 9px;line-height:1.45}
+nav .nav-main{margin-top:10px;font-weight:600;color:var(--text)}
+nav a[aria-current="location"]{background:var(--blue-bg);color:var(--accent);font-weight:600}
+nav .nav-l2{padding-left:23px}
+nav .nav-group{margin-top:0;padding-top:0;color:var(--muted);letter-spacing:.08em}
+.nav-note{border-top:1px solid var(--border);margin:13px 9px 0;padding-top:12px;font-size:10px;color:var(--muted)}
+section{padding:20px 22px;margin-bottom:14px}
+section:last-child{margin-bottom:0}
+.overview>p{color:var(--muted);font-size:11px}
+.overview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:13px}
+.overview-card{border:1px solid var(--border);background:#f8f9fb;border-radius:8px;padding:12px;text-decoration:none;color:var(--text)}
+.overview-card:hover{background:var(--blue-bg);border-color:#c8d7e3}
+.overview-card .code{display:block;color:var(--accent);font-size:10px;font-weight:700;margin-bottom:5px}
+.overview-card strong{display:block;font-size:11.5px;margin-bottom:4px}
+.overview-card .question{display:block;font-size:10.5px;color:var(--muted)}
+.section-heading{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+.number{flex:0 0 39px;height:39px;display:grid;place-items:center;background:var(--blue-bg);color:var(--accent);border-radius:8px;font-size:12px;font-weight:700}
+.section-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+section .section-label{margin:0 0 3px}
+.section-heading h2{font-size:15px;line-height:1.4;margin:0;letter-spacing:-.015em}
+.columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.knowledge,.skills{background:#f8f9fb;border:1px solid #edf0f4;border-radius:8px;padding:14px 15px}
+.columns h3{font-size:11.5px;margin:0 0 8px;font-weight:700}
+.skills h3{color:var(--accent)}
+.columns ul{margin:0;padding-left:16px}
+.columns li{padding-left:2px;margin-bottom:7px;line-height:1.6}
+.columns li:last-child{margin-bottom:0}
+li::marker{color:#8a9dac}
+.example{margin-top:12px;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;background:var(--blue-bg);padding:13px 15px}
+.example h3{color:var(--accent);font-size:10.5px;margin:0 0 6px;font-weight:700}
+.example p{font-size:11.5px;line-height:1.7;max-width:108ch}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:2px;font-size:10px;text-align:left}
+footer a{text-decoration:none}
+.skip{position:absolute;top:-100px;left:20px;background:white;padding:10px 14px;z-index:10}
+.skip:focus{top:10px}
+@media(max-width:1000px){.page{grid-template-columns:210px minmax(0,1fr);gap:14px;padding:16px}.columns,.overview-grid{grid-template-columns:1fr}section{padding:18px}}
+@media(max-width:780px){.page{grid-template-columns:1fr;padding:12px;gap:12px}header{padding:17px}.hero-top{align-items:flex-start}.eyebrow{max-width:24ch}nav{position:static;max-height:none}nav .nav-l2,.nav-note{display:none}nav .nav-main{margin-top:2px}.overview-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.section-heading h2{font-size:14px}footer{padding:6px}}
+@media(max-width:480px){.overview-grid{grid-template-columns:1fr}.section-heading{gap:9px}section{padding:16px}.number{flex-basis:33px;height:33px;font-size:11px}}
+@page{size:A4;margin:13mm}
+@media print{body{background:white}.page{display:block;max-width:none;padding:0}.print,.skip,footer a{display:none!important}header{box-shadow:none;border:1px solid var(--border);border-top:3px solid var(--accent);padding:14px 17px;margin-bottom:12px}header h1{font-size:18px}.hero-top{margin-bottom:5px}section{padding:15px 17px;break-inside:avoid;page-break-inside:avoid;margin-bottom:12px}.columns{grid-template-columns:repeat(2,minmax(0,1fr))}.overview-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.columns li,.example p{font-size:10.5px;line-height:1.5}h2,h3{break-after:avoid}footer{margin-top:14px}*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+.reference-section li{font-size:10px;color:var(--muted);line-height:1.55}
+.reference-section a{font-weight:600;text-underline-offset:2px}
+.model-scope{margin-top:7px;font-size:10px;color:var(--muted);max-width:110ch}
+.model-status{margin-top:4px;font-size:9.5px;color:var(--muted)}
+.section-heading>div{min-width:0}
+@media(max-width:480px){.hero-top{flex-wrap:wrap}.block-header .block-title{overflow-wrap:anywhere}}
+@media print{
+ .block-content .columns li,.block-content .example p{line-height:1.4}
+ .model-footer{position:fixed;left:0;right:0;bottom:-9mm;margin:0;font-size:8px}
+ .reference-section{break-inside:avoid;page-break-inside:avoid}
+ .block-content .reference-section{padding:6px 10px}
+ .block-content .reference-section h3{font-size:10px;margin-bottom:4px}
+ .block-content .reference-section ul{margin:0;padding-left:12px}
+ .block-content .reference-section li{font-size:8.5px;line-height:1.3;margin-bottom:2px}
+ .reference-section li{break-inside:avoid}
+}
+</style></head><body>
+<a class="skip" href="#content">Перейти к содержанию</a>
+<div class="page" id="top"><header><div class="hero-top"><p class="eyebrow">Модель компетенций управленца в здравоохранении</p><button class="print" type="button" onclick="window.print()">Печать / PDF</button></div><h1>Коммуникации и влияние</h1><p class="sub">Блок 7 · Знания, умения и примеры управленческого поведения</p><div class="meta"><span class="badge badge-blue">3 компетенции</span><span class="badge badge-blue">Подготовлено к общему просмотру</span><span class="badge badge-muted">24 сентября 2026</span></div><p class="intro">Понятно объяснять решения, слышать позиции участников, согласовывать интересы и поддерживать доверие при изменениях и сложных ситуациях.</p></header><nav aria-label="Оглавление блока 7"><p class="nav-group">Содержание блока</p><a href="#overview">Обзор компетенций</a>
+<a class="nav-main" href="#clear-communication">7.1. Ясность и активное слушание</a>
+<a class="nav-l2" href="#clear-communication-knows">Что знает</a>
+<a class="nav-l2" href="#clear-communication-skills">Что умеет</a>
+<a class="nav-l2" href="#clear-communication-example">Пример поведения</a>
+<a class="nav-main" href="#negotiation">7.2. Переговоры и интересы</a>
+<a class="nav-l2" href="#negotiation-knows">Что знает</a>
+<a class="nav-l2" href="#negotiation-skills">Что умеет</a>
+<a class="nav-l2" href="#negotiation-example">Пример поведения</a>
+<a class="nav-main" href="#change-communication">7.3. Изменения и доверие</a>
+<a class="nav-l2" href="#change-communication-knows">Что знает</a>
+<a class="nav-l2" href="#change-communication-skills">Что умеет</a>
+<a class="nav-l2" href="#change-communication-example">Пример поведения</a>
+<a class="nav-main" href="#references">Методические ориентиры</a>
+<p class="nav-note">Понимание → договорённости → доверие</p></nav><main id="content"><section class="overview" id="overview" aria-labelledby="overview-title"><h2 id="overview-title">От взаимопонимания — к совместным действиям</h2><p>Понятная информация → договорённости → участие и доверие.</p><div class="overview-grid"><a class="overview-card" href="#clear-communication"><span class="code">7.1</span><strong>Как достичь взаимопонимания?</strong><span class="question">Аудитория, смысл сообщения и проверка понимания.</span></a><a class="overview-card" href="#negotiation"><span class="code">7.2</span><strong>Как прийти к выполнимой договорённости?</strong><span class="question">Участники, интересы, варианты и обязательства.</span></a><a class="overview-card" href="#change-communication"><span class="code">7.3</span><strong>Как обеспечить участие и доверие?</strong><span class="question">Вовлечение, объяснение изменений и коммуникация рисков.</span></a></div></section>
+<section id="clear-communication" aria-labelledby="clear-communication-title"><div class="section-heading"><span class="number" aria-hidden="true">7.1</span><div><p class="section-label">Компетенция 7.1</p><h2 id="clear-communication-title">Ясная коммуникация и активное слушание</h2></div></div><div class="columns">
+<div class="knowledge" id="clear-communication-knows"><h3>Что знает</h3><ul>
+<li>Как цель общения, контекст и особенности аудитории влияют на содержание, форму и канал передачи информации.</li>
+<li>Приёмы активного слушания, уточнения, структурирования сообщения и проверки понимания.</li>
+<li>Как отделять факты от оценок и предположений, объяснять сложные решения и обозначать границы имеющейся информации.</li>
+</ul></div>
+<div class="skills" id="clear-communication-skills"><h3>Что умеет</h3><ul>
+<li>Формулировать основную мысль, основания решения и ожидаемые действия понятным для аудитории языком.</li>
+<li>Выяснять вопросы и возражения, уточнять смысл услышанного и проверять, одинаково ли участники понимают договорённости.</li>
+<li>Выбирать подходящий канал и время общения, фиксировать значимую информацию и обеспечивать возможность обратной связи.</li>
+</ul></div>
+</div><div class="example" id="clear-communication-example"><h3>Пример корректного управленческого поведения</h3><p>Руководитель подразделения объясняет изменение порядка взаимодействия со смежной службой. Показывает причину и ожидаемый результат, разбирает с сотрудниками типовую ситуацию и просит описать новый порядок своими словами. По вопросам выявляет неоднозначность, уточняет инструкцию и согласует, где сотрудники смогут получить разъяснение.</p></div></section>
+<section id="negotiation" aria-labelledby="negotiation-title"><div class="section-heading"><span class="number" aria-hidden="true">7.2</span><div><p class="section-label">Компетенция 7.2</p><h2 id="negotiation-title">Переговоры и согласование интересов</h2></div></div><div class="columns">
+<div class="knowledge" id="negotiation-knows"><h3>Что знает</h3><ul>
+<li>Как выявлять заинтересованные стороны, их интересы, полномочия, ограничения и зависимость от решения.</li>
+<li>Принципы подготовки переговоров: цели, допустимые условия, альтернативы соглашению и объективные критерии выбора.</li>
+<li>Способы работы с разногласиями и фиксации договорённостей: обязательства, ресурсы, сроки, контроль и порядок пересмотра.</li>
+</ul></div>
+<div class="skills" id="negotiation-skills"><h3>Что умеет</h3><ul>
+<li>Составлять карту участников и интересов, определять, кого необходимо включить в обсуждение и кто уполномочен принять решение.</li>
+<li>Сравнивать варианты по согласованным критериям, работать с возражениями и обосновывать предложения, учитывающие существенные интересы участников и результат для системы.</li>
+<li>Закреплять договорённости в пределах полномочий, проверять их выполнимость и организовывать разрешение разногласий при исполнении.</li>
+</ul></div>
+</div><div class="example" id="negotiation-example"><h3>Пример корректного управленческого поведения</h3><p>Региональный руководитель согласует распределение функций между медицинскими организациями. Выясняет интересы сторон, ограничения мощностей и последствия для пациентов. Вместе с участниками сравнивает варианты, определяет условия передачи функций и необходимые ресурсы. Фиксирует обязательства, сроки и порядок рассмотрения спорных ситуаций.</p></div></section>
+<section id="change-communication" aria-labelledby="change-communication-title"><div class="section-heading"><span class="number" aria-hidden="true">7.3</span><div><p class="section-label">Компетенция 7.3</p><h2 id="change-communication-title">Коммуникация изменений и поддержание доверия</h2></div></div><div class="columns">
+<div class="knowledge" id="change-communication-knows"><h3>Что знает</h3><ul>
+<li>Как планировать коммуникацию изменений: аудитории, вопросы и опасения, сообщения, каналы, сроки и ответственные.</li>
+<li>Принципы публичного объяснения решений и коммуникации рисков: своевременность, согласованность, прозрачность и открытое обозначение неопределённости.</li>
+<li>Способы вовлечения участников, изучения обратной связи и реагирования на ошибочную информацию.</li>
+</ul></div>
+<div class="skills" id="change-communication-skills"><h3>Что умеет</h3><ul>
+<li>Вовлекать затрагиваемые группы в обсуждение изменений, выявлять обоснованные опасения и использовать их для корректировки решений.</li>
+<li>Готовить и выполнять план коммуникации изменений: объяснять цели, последствия и ограничения, согласовывать сообщения, каналы, сроки и ответственных, регулярно обновлять информацию.</li>
+<li>В сложной ситуации сообщать проверенные факты, необходимые действия и время следующего обновления, исправлять ошибки и оценивать понимание сообщений.</li>
+</ul></div>
+</div><div class="example" id="change-communication-example"><h3>Пример корректного управленческого поведения</h3><p>При изменении общего порядка получения помощи руководитель системного уровня организует обсуждение с регионами, профессиональным сообществом и представителями пациентов. По обратной связи уточняет переходный период и способы обращения. Публикует понятные разъяснения, собирает повторяющиеся вопросы и обновляет информацию, отдельно обозначая ещё не решённые вопросы.</p></div></section>
+<section class="reference-section" id="references" aria-labelledby="references-title"><h2 id="references-title">Методические ориентиры</h2><ul><li><a href="https://www.who.int/about/communications/relevant/listening">ВОЗ: слушать аудиторию</a> — 7.1 и 7.3. Вопросы и опасения аудитории как основа понятной коммуникации.</li><li><a href="https://www.who.int/news-room/questions-and-answers/item/emergencies-risk-communication">ВОЗ: коммуникация рисков</a> — 7.3. Доверие, обмен информацией и понимание позиции людей в условиях угроз.</li><li><a href="https://www.who.int/emergencies/risk-communications">ВОЗ: коммуникация рисков и вовлечение сообществ</a> — 7.3. Участие затрагиваемых групп в подготовке и реализации решений.</li></ul></section></main><footer><span>Модель компетенций · Блок 7 · 24 сентября 2026</span><a href="competency-model.html#block-7">Общая модель</a><a href="block-6-competencies.html">← Блок 6</a><a href="block-8-competencies.html">Блок 8 →</a><a href="#top">К началу ↑</a></footer></div><script>
+const links = Array.from(document.querySelectorAll('nav a'));
+const targets = links.map(link => document.getElementById(link.hash.slice(1)));
+let queued = false;
+function updateNavigation() {
+ queued = false;
+ let index = 0;
+ targets.forEach((target, i) => { if (target.getBoundingClientRect().top <= 110) index = i; });
+ if (window.matchMedia('(max-width: 780px)').matches) {
+  while (index > 0 && links[index].classList.contains('nav-l2')) index--;
+ }
+ links.forEach((link, i) => {
+  if (i === index) link.setAttribute('aria-current', 'location');
+  else link.removeAttribute('aria-current');
+ });
+}
+window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(updateNavigation); } }, { passive: true });
+window.addEventListener('resize', updateNavigation);
+updateNavigation();
+</script></body></html>

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Модель компетенций управленца в здравоохранении: восемь блоков, знания, умения и примеры для разных уровней управления.">
+<meta name="theme-color" content="#f5f6f8">
+<title>Модель компетенций · 8 блоков · 24 компетенции</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --text: #1a1d23;
+    --muted: #5c6570;
+    --border: #e2e5ea;
+    --ok: #0d7a4f;
+    --ok-bg: #e8f5ef;
+    --warn: #9a6700;
+    --warn-bg: #fff8e6;
+    --danger: #b42318;
+    --danger-bg: #fef3f2;
+    --accent: #1f4e79;
+    --nav-w: 260px;
+    --max: 1520px;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 1.48;
+    color: var(--text);
+    background: var(--bg);
+  }
+  .page {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 18px 20px 56px;
+    display: grid;
+    grid-template-columns: var(--nav-w) 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  header {
+    grid-column: 1 / -1;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+  }
+  header h1 {
+    font-size: 16.5px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 3px;
+  }
+  header .sub { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+  header .meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 7px; }
+  .badge {
+    display: inline-flex; align-items: center;
+    padding: 3px 8px; border-radius: 6px;
+    font-size: 10.5px; font-weight: 600;
+  }
+  .badge-ok { background: var(--ok-bg); color: var(--ok); }
+  .badge-warn { background: var(--warn-bg); color: var(--warn); }
+  .badge-danger { background: var(--danger-bg); color: var(--danger); }
+  .badge-muted { background: #eef0f3; color: var(--muted); }
+
+  nav {
+    position: sticky; top: 10px;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 10px 8px;
+    box-shadow: var(--shadow);
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+  }
+  nav a {
+    display: block;
+    padding: 4px 8px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 10.5px;
+    font-weight: 500;
+    border-radius: 5px;
+    margin-bottom: 1px;
+  }
+  nav a:hover { color: var(--text); background: #f0f2f5; }
+  nav a.active { color: var(--text); font-weight: 600; }
+  nav .nav-group {
+    font-size: 9.5px; font-weight: 600; color: #9aa3ad;
+    text-transform: uppercase; letter-spacing: .04em;
+    padding: 8px 8px 3px; margin-top: 4px;
+  }
+
+  main { min-width: 0; }
+  section {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 15px 17px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  section h2 {
+    font-size: 13px; font-weight: 700;
+    margin-bottom: 9px; letter-spacing: -0.01em;
+  }
+  section h3 {
+    font-size: 11.5px; font-weight: 600;
+    margin: 12px 0 5px; color: var(--text);
+  }
+  section h4 {
+    font-size: 11px; font-weight: 600;
+    margin: 8px 0 4px; color: var(--muted);
+  }
+  p, li { font-size: 11.5px; color: var(--text); }
+  ul, ol { padding-left: 16px; margin: 5px 0; }
+  li { margin-bottom: 2.5px; }
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 11px; margin: 7px 0;
+  }
+  th, td {
+    text-align: left; padding: 5px 7px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    background: #f0f2f5; font-weight: 600;
+    font-size: 10.5px; color: var(--muted);
+  }
+  code, .mono {
+    font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 10.5px;
+    background: #f0f2f5;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  .callout {
+    border-radius: 8px; padding: 9px 11px;
+    margin: 8px 0; font-size: 11.5px;
+  }
+  .callout-ok { background: var(--ok-bg); color: #0a5c3a; }
+  .callout-warn { background: var(--warn-bg); color: #7a5200; }
+  .callout-danger { background: var(--danger-bg); color: #912018; }
+  .callout strong { font-weight: 600; }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px; margin: 8px 0;
+  }
+  .cards-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card {
+    background: #f8f9fb; border-radius: 8px; padding: 11px;
+  }
+  .card h4 { font-size: 11.5px; font-weight: 600; margin-bottom: 5px; color: var(--text); }
+  .card p, .card li { font-size: 11px; color: var(--muted); }
+  .modal-trigger {
+    background: none; border: none;
+    color: var(--accent); text-decoration: underline;
+    cursor: pointer; font-family: inherit;
+    font-size: 11.5px; font-weight: 500; padding: 0;
+  }
+  .modal-trigger:hover { opacity: 0.8; }
+  .flow {
+    display: flex; flex-wrap: wrap; gap: 5px;
+    align-items: center; margin: 8px 0; font-size: 11px;
+  }
+  .flow-step {
+    background: #eef1f5; padding: 4px 9px;
+    border-radius: 6px; font-weight: 500;
+  }
+  .flow-arrow { color: var(--muted); font-size: 11px; }
+  .two-col {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin: 8px 0;
+  }
+  footer {
+    grid-column: 1 / -1;
+    text-align: center; padding: 12px;
+    font-size: 10.5px; color: var(--muted);
+  }
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.42); z-index: 100;
+    align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border-radius: 12px;
+    max-width: 760px; width: 100%; max-height: 88vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 40px rgba(0,0,0,.15);
+  }
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .modal-header h3 { font-size: 12.5px; font-weight: 600; }
+  .modal-close {
+    background: none; border: none; font-size: 20px;
+    cursor: pointer; color: var(--muted); line-height: 1; padding: 0 4px;
+  }
+  .modal-body {
+    padding: 14px 16px; overflow-y: auto; font-size: 11.5px;
+  }
+  .modal-body pre {
+    white-space: pre-wrap;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 10.5px; background: #f6f7f9;
+    padding: 11px; border-radius: 6px; line-height: 1.4;
+  }
+  .modal-body table { font-size: 10.5px; }
+  .modal-body h4 { font-size: 11.5px; font-weight: 600; margin: 10px 0 5px; }
+  @media (max-width: 780px) {
+    .page { grid-template-columns: 1fr; }
+    nav { position: static; max-height: none; }
+    .cards, .cards-3, .two-col { grid-template-columns: 1fr; }
+  }
+
+/* ===== дополнения: элементы, которых не было в исходном отчёте ===== */
+
+/* --- вертикальный ритм: в исходном CSS `* { margin: 0 }` съедал абзацы --- */
+section p { margin: 0 0 9px; }
+section p:last-child { margin-bottom: 0; }
+section li { margin-bottom: 4px; }
+section ul, section ol { margin: 7px 0 11px; padding-left: 18px; }
+section li > ul, section li > ol { margin: 3px 0 4px; }
+section > *:first-child { margin-top: 0; }
+section > *:last-child { margin-bottom: 0; }
+
+section h2 { margin: 0 0 11px; }
+section h3 { margin: 18px 0 7px; }
+section h4 { margin: 14px 0 6px; }
+section h3:first-child, section h4:first-child { margin-top: 0; }
+
+/* текстовая колонка не растягивается на всю ширину — читаемая длина строки */
+section p, section ul, section ol, section blockquote { max-width: 96ch; }
+
+/* таблицы дышат */
+section table { margin: 10px 0 12px; }
+th, td { padding: 6px 9px; }
+
+
+/* контент из markdown внутри section */
+section h2:not(:first-child) { margin-top: 16px; }
+section > h3:first-child, section > h4:first-child { margin-top: 0; }
+section p + h3, section table + h3, section ul + h3 { margin-top: 14px; }
+section hr { border: 0; border-top: 1px solid var(--border); margin: 14px 0; }
+section blockquote {
+  margin: 8px 0; padding: 7px 11px;
+  background: #f8f9fb; border-left: 3px solid var(--accent);
+  font-size: 11.5px; color: var(--muted);
+}
+section pre {
+  background: #f6f7f9; border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px 12px; overflow-x: auto; margin: 8px 0;
+  font-family: 'SF Mono','Consolas','Menlo',monospace;
+  font-size: 10.5px; line-height: 1.45; color: var(--text);
+}
+section pre code { background: none; padding: 0; font-size: 10.5px; }
+strong { font-weight: 600; }
+.tablewrap { overflow-x: auto; margin: 10px 0 12px; }
+.tablewrap table { margin: 0; }
+td code { font-size: 10px; }
+
+/* перекрёстные ссылки */
+a { color: var(--accent); }
+a.xref {
+  text-decoration: none; border-bottom: 1px solid #cfdae6;
+  white-space: nowrap; font-weight: 500;
+}
+a.xref:hover { background: #eaf0f6; border-bottom-color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* статусные пилюли в таблицах — те же токены, что у .badge */
+.pill {
+  display: inline-block; padding: 2px 7px; border-radius: 5px;
+  font-size: 10px; font-weight: 600; white-space: nowrap;
+}
+.pill.ok { background: var(--ok-bg); color: var(--ok); }
+.pill.defer { background: var(--warn-bg); color: var(--warn); }
+.pill.reject { background: var(--danger-bg); color: var(--danger); }
+.pill.open { background: #eaf0f6; color: var(--accent); }
+
+/* панель словаря терминов */
+.gl-btn {
+  position: fixed; right: 14px; bottom: 14px; z-index: 40;
+  font-family: inherit; font-size: 11px; font-weight: 600;
+  background: var(--text); color: #fff; border: 0;
+  padding: 8px 13px; border-radius: 7px; cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,.18);
+}
+.gl-btn:hover { background: var(--accent); }
+.gl-panel {
+  position: fixed; inset: 0 0 0 auto; width: min(560px, 94vw);
+  background: var(--surface); z-index: 110; transform: translateX(100%);
+  transition: transform .2s ease; overflow-y: auto;
+  padding: 14px 18px 48px; box-shadow: -8px 0 30px rgba(0,0,0,.14);
+}
+.gl-panel.open { transform: translateX(0); }
+.gl-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 10px;
+}
+.gl-head h3 { font-size: 12.5px; font-weight: 600; }
+.gl-close {
+  background: none; border: 0; font-size: 20px; cursor: pointer;
+  color: var(--muted); line-height: 1; padding: 0 4px;
+}
+.gl-panel h3 { font-size: 11.5px; font-weight: 600; margin: 14px 0 5px; }
+.gl-panel table { font-size: 10.5px; }
+.gl-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 105;
+  opacity: 0; pointer-events: none; transition: opacity .18s;
+}
+.gl-backdrop.on { opacity: 1; pointer-events: auto; }
+
+/* навигация: группы и вложенность */
+nav a.nav-l2 { padding-left: 18px; font-size: 10px; }
+.navtoggle { display: none; }
+
+@media (max-width: 780px) {
+  .navtoggle {
+    display: block; position: fixed; left: 14px; bottom: 14px; z-index: 40;
+    font-family: inherit; font-size: 11px; font-weight: 600;
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--border); padding: 8px 12px;
+    border-radius: 7px; cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+@media print {
+  nav, .gl-btn, .gl-panel, .gl-backdrop, .navtoggle { display: none !important; }
+  .page { display: block; max-width: none; padding: 0; }
+  section { box-shadow: none; border: 1px solid var(--border); page-break-inside: auto; }
+  table { page-break-inside: avoid; }
+  pre { white-space: pre-wrap; }
+}
+
+/* Оформление блока компетенций на основе эталона Дениса. */
+:root{--nav-w:244px;--max:1400px;--blue-bg:#edf3f8}
+html{scroll-padding-top:22px}
+body{line-height:1.6}
+.page{padding:24px 24px 32px}
+header{border-top:3px solid var(--accent);padding:22px 25px 20px}
+.hero-top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:11px}
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:.065em;text-transform:uppercase;color:var(--muted)}
+header h1{font-size:clamp(19px,2.1vw,25px);line-height:1.3;letter-spacing:-.035em;margin-bottom:6px}
+header .sub{font-size:12px}
+header .meta{margin-top:14px}
+.badge-blue{background:var(--blue-bg);color:var(--accent)}
+.intro{margin-top:14px;padding-top:13px;border-top:1px solid var(--border);max-width:108ch;line-height:1.7}
+.print{font:600 10px 'Montserrat',system-ui,sans-serif;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:white;color:var(--accent);cursor:pointer;white-space:nowrap}
+.print:hover{background:var(--blue-bg)}
+nav{padding:14px 10px}
+nav a{padding:6px 9px;line-height:1.45}
+nav .nav-main{margin-top:10px;font-weight:600;color:var(--text)}
+nav a[aria-current="location"]{background:var(--blue-bg);color:var(--accent);font-weight:600}
+nav .nav-l2{padding-left:23px}
+nav .nav-group{margin-top:0;padding-top:0;color:var(--muted);letter-spacing:.08em}
+.nav-note{border-top:1px solid var(--border);margin:13px 9px 0;padding-top:12px;font-size:10px;color:var(--muted)}
+section{padding:20px 22px;margin-bottom:14px}
+section:last-child{margin-bottom:0}
+.overview>p{color:var(--muted);font-size:11px}
+.overview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:13px}
+.overview-card{border:1px solid var(--border);background:#f8f9fb;border-radius:8px;padding:12px;text-decoration:none;color:var(--text)}
+.overview-card:hover{background:var(--blue-bg);border-color:#c8d7e3}
+.overview-card .code{display:block;color:var(--accent);font-size:10px;font-weight:700;margin-bottom:5px}
+.overview-card strong{display:block;font-size:11.5px;margin-bottom:4px}
+.overview-card .question{display:block;font-size:10.5px;color:var(--muted)}
+.section-heading{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+.number{flex:0 0 39px;height:39px;display:grid;place-items:center;background:var(--blue-bg);color:var(--accent);border-radius:8px;font-size:12px;font-weight:700}
+.section-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+section .section-label{margin:0 0 3px}
+.section-heading h2{font-size:15px;line-height:1.4;margin:0;letter-spacing:-.015em}
+.columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.knowledge,.skills{background:#f8f9fb;border:1px solid #edf0f4;border-radius:8px;padding:14px 15px}
+.columns h3{font-size:11.5px;margin:0 0 8px;font-weight:700}
+.skills h3{color:var(--accent)}
+.columns ul{margin:0;padding-left:16px}
+.columns li{padding-left:2px;margin-bottom:7px;line-height:1.6}
+.columns li:last-child{margin-bottom:0}
+li::marker{color:#8a9dac}
+.example{margin-top:12px;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;background:var(--blue-bg);padding:13px 15px}
+.example h3{color:var(--accent);font-size:10.5px;margin:0 0 6px;font-weight:700}
+.example p{font-size:11.5px;line-height:1.7;max-width:108ch}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:2px;font-size:10px;text-align:left}
+footer a{text-decoration:none}
+.skip{position:absolute;top:-100px;left:20px;background:white;padding:10px 14px;z-index:10}
+.skip:focus{top:10px}
+@media(max-width:1000px){.page{grid-template-columns:210px minmax(0,1fr);gap:14px;padding:16px}.columns,.overview-grid{grid-template-columns:1fr}section{padding:18px}}
+@media(max-width:780px){.page{grid-template-columns:1fr;padding:12px;gap:12px}header{padding:17px}.hero-top{align-items:flex-start}.eyebrow{max-width:24ch}nav{position:static;max-height:none}nav .nav-l2,.nav-note{display:none}nav .nav-main{margin-top:2px}.overview-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.section-heading h2{font-size:14px}footer{padding:6px}}
+@media(max-width:480px){.overview-grid{grid-template-columns:1fr}.section-heading{gap:9px}section{padding:16px}.number{flex-basis:33px;height:33px;font-size:11px}}
+@page{size:A4;margin:13mm}
+@media print{body{background:white}.page{display:block;max-width:none;padding:0}.print,.skip,footer a{display:none!important}header{box-shadow:none;border:1px solid var(--border);border-top:3px solid var(--accent);padding:14px 17px;margin-bottom:12px}header h1{font-size:18px}.hero-top{margin-bottom:5px}section{padding:15px 17px;break-inside:avoid;page-break-inside:avoid;margin-bottom:12px}.columns{grid-template-columns:repeat(2,minmax(0,1fr))}.overview-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.columns li,.example p{font-size:10.5px;line-height:1.5}h2,h3{break-after:avoid}footer{margin-top:14px}*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+/* Единый документ и навигация между блоками. */
+.page.model-page{display:block;max-width:1400px;padding-top:20px}
+.model-header{border-top:3px solid var(--accent);padding:17px 22px;margin-bottom:12px}
+.model-header .hero-top{margin:0}
+.model-header h1{font-size:20px;margin:3px 0 0}
+.model-header .eyebrow{font-size:9px}
+nav.block-tabs{position:sticky;top:0;z-index:20;display:flex;gap:8px;max-height:none;overflow:visible;padding:9px;margin-bottom:18px;border:1px solid var(--border);box-shadow:var(--shadow);background:rgba(255,255,255,.97)}
+.block-tabs .block-tab{flex:1;display:flex;align-items:center;gap:10px;margin:0;padding:11px 13px;background:#f8f9fb;border:1px solid transparent;font-size:11.5px;font-weight:600;color:var(--muted);line-height:1.4;text-decoration:none;border-radius:7px;min-width:0}
+.block-tabs .block-tab:hover{background:var(--blue-bg);color:var(--accent)}
+.block-tabs .block-tab[aria-current="page"]{background:var(--blue-bg);border-color:#c8d7e3;color:var(--accent)}
+.tab-number{flex:0 0 28px;height:28px;display:grid;place-items:center;border-radius:6px;background:white;font-size:10px;color:var(--accent);font-weight:700}
+.block-layout{display:grid;grid-template-columns:var(--nav-w) minmax(0,1fr);gap:20px;align-items:start}
+.block-panel{scroll-margin-top:90px}
+.block-panel+.block-panel{margin-top:25px}
+.block-panel[hidden]{display:none!important}
+.block-header{grid-column:1/-1;border-top:none}
+.block-header .block-title{font-size:clamp(19px,2.1vw,25px);line-height:1.3;letter-spacing:-.035em;margin:0 0 6px}
+.block-toc{position:sticky;top:90px;max-height:calc(100vh - 104px)}
+.block-content{min-width:0}
+.block-content section h3{font-size:13px;font-weight:700;margin:0 0 11px}
+.block-content .section-heading h3{font-size:15px;line-height:1.4;margin:0;letter-spacing:-.015em}
+.block-content .columns h4{font-size:11.5px;font-weight:700;margin:0 0 8px;color:var(--text)}
+.block-content .skills h4{color:var(--accent)}
+.block-content .example h4{color:var(--accent);font-size:10.5px;margin:0 0 6px;font-weight:700}
+html{scroll-padding-top:100px}
+.model-footer{margin-top:20px}
+@media(max-width:1000px){.block-layout{grid-template-columns:210px minmax(0,1fr);gap:14px}}
+@media(max-width:780px){.block-layout{grid-template-columns:1fr;gap:12px}.block-toc{position:static;max-height:none}.block-tabs .block-tab{font-size:10px;padding:9px 8px;gap:7px}.block-tabs .tab-number{flex-basis:24px;height:24px}.model-header h1{font-size:17px}.model-header{padding:15px}.block-content .section-heading h3{font-size:14px}.model-header .eyebrow{max-width:none}nav.block-tabs{margin-bottom:12px}}
+@media(max-width:480px){.block-tabs .block-tab{display:block}.tab-number{width:24px;margin-bottom:5px}html{scroll-padding-top:130px}}
+@media print{.page.model-page{padding:0}.model-header{margin-bottom:12px}.block-layout{display:block}.block-panel[hidden]{display:block!important}.block-panel+.block-panel{break-before:page;margin-top:0}.block-header{margin-bottom:12px}.block-header .block-title{font-size:18px}.block-content section h3,.block-content section h4{break-after:avoid}.block-content .columns{grid-template-columns:repeat(2,minmax(0,1fr))}.model-footer{margin-top:14px}}
+
+/* Компактные вертикальные отступы. */
+.page.model-page{padding-top:10px;padding-bottom:14px}
+.model-header{padding:10px 16px;margin-bottom:8px}
+.model-header h1{margin-top:1px}
+nav.block-tabs{padding:5px;gap:6px;margin-bottom:10px}
+.block-tabs .block-tab{padding:6px 10px;gap:8px}
+.block-layout{row-gap:10px;column-gap:16px}
+.block-header{padding:11px 17px}
+.block-header .block-title{margin-bottom:3px}
+.block-header .meta{margin-top:7px;gap:5px}
+.block-header .intro{margin-top:8px;padding-top:8px;line-height:1.5}
+.block-content section{padding:11px 15px;margin-bottom:9px}
+.block-content section:last-child{margin-bottom:0}
+.block-content .overview>h3{margin-bottom:5px}
+.block-content .overview>p{margin-bottom:0}
+.overview-grid{margin-top:8px;gap:7px}
+.overview-card{padding:8px 10px}
+.overview-card .code{margin-bottom:2px}
+.overview-card strong{margin-bottom:2px}
+.section-heading{margin-bottom:9px;gap:9px}
+.section-heading .number{flex-basis:33px;height:33px}
+.columns{gap:9px;align-items:start}
+.knowledge,.skills{padding:9px 11px}
+.block-content .columns h4{margin-bottom:5px}
+.columns li{margin-bottom:4px;line-height:1.5}
+.columns li:last-child{margin-bottom:0}
+.example{margin-top:8px;padding:8px 11px}
+.block-content .example h4{margin-bottom:4px}
+.example p{line-height:1.5}
+.block-toc{padding:10px 8px;top:66px;max-height:calc(100vh - 78px)}
+.block-toc a{padding-top:4px;padding-bottom:4px}
+.block-toc .nav-main{margin-top:6px}
+.block-toc .nav-note{margin-top:8px;padding-top:8px}
+.model-footer{margin-top:10px;padding-top:0;padding-bottom:0}
+@media(max-width:780px){
+ .page.model-page{padding:8px 12px 12px}
+ .model-header,.block-header{padding:10px 13px}
+ .block-layout{gap:9px}
+ .block-content section{padding:10px 12px}
+ .block-toc{position:static;max-height:none;padding:8px}
+ .block-toc .nav-main{margin-top:2px}
+ .block-tabs .block-tab{padding:6px 7px}
+}
+@media print{
+ .page.model-page{padding:0}
+ .model-header,.block-header{padding:9px 13px;margin-bottom:8px}
+ .block-content section{padding:10px 13px;margin-bottom:8px}
+ .model-footer{margin-top:8px}
+}
+
+
+/* Все блоки: две компактные строки, на мобильных — горизонтальная прокрутка. */
+:root{--block-tabs-height:150px}
+nav.block-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch}
+.block-tabs .block-tab{font-size:10.5px;padding:7px 9px}
+.block-tabs .tab-number{flex:0 0 25px;width:25px;height:25px;margin:0}
+.tab-status{display:block;font-size:9px;font-weight:400;color:var(--muted);margin-top:2px}
+.block-tabs .block-tab:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+html{scroll-padding-top:calc(var(--block-tabs-height) + 12px)}
+.block-panel{scroll-margin-top:0}
+.block-toc{top:calc(var(--block-tabs-height) + 12px);max-height:calc(100vh - var(--block-tabs-height) - 24px)}
+@media(max-width:780px){
+ nav.block-tabs{display:flex;overflow-x:auto;overscroll-behavior-x:contain;max-width:100%}
+ .block-tabs .block-tab{display:flex;flex:0 0 210px;font-size:10px}
+ .block-toc{position:static;max-height:none}
+}
+@media(max-width:480px){
+ .model-header .hero-top{flex-wrap:wrap}
+}
+@media print{
+ nav.block-tabs,.block-panel.block-pending{display:none!important}
+}
+
+
+.reference-section li{font-size:10px;color:var(--muted);line-height:1.55}
+.reference-section a{font-weight:600;text-underline-offset:2px}
+.model-scope{margin-top:7px;font-size:10px;color:var(--muted);max-width:110ch}
+.model-status{margin-top:4px;font-size:9.5px;color:var(--muted)}
+.section-heading>div{min-width:0}
+@media(max-width:480px){.hero-top{flex-wrap:wrap}.block-header .block-title{overflow-wrap:anywhere}}
+@media print{
+ .block-content .columns li,.block-content .example p{line-height:1.4}
+ .model-footer{position:fixed;left:0;right:0;bottom:-9mm;margin:0;font-size:8px}
+ .reference-section{break-inside:avoid;page-break-inside:avoid}
+ .block-content .reference-section{padding:6px 10px}
+ .block-content .reference-section h3{font-size:10px;margin-bottom:4px}
+ .block-content .reference-section ul{margin:0;padding-left:12px}
+ .block-content .reference-section li{font-size:8.5px;line-height:1.3;margin-bottom:2px}
+ .reference-section li{break-inside:avoid}
+}
+</style></head><body>
+<a class="skip" href="#content">Перейти к содержанию</a>
+<div class="page model-page" id="top"><header class="model-header"><div class="hero-top"><div><p class="eyebrow">Здравоохранение · 8 блоков · 24 компетенции</p><h1>Модель управленческих компетенций</h1></div><button class="print" type="button" onclick="window.print()">Печать всей модели / PDF</button></div><p class="model-scope">Для руководителей подразделений, медицинских организаций, сетей, регионов и системы здравоохранения. Масштаб решений определяется ответственностью и полномочиями руководителя.</p><p class="model-status">Блоки 1, 3 и 4 согласованы · Блок 2 пересмотрен с учётом уровней управления · Блоки 5–8 подготовлены для просмотра</p></header><nav class="block-tabs" aria-label="Выбор блока"><a class="block-tab" href="#block-1" aria-controls="block-1"><span class="tab-number">01</span><span>Навигация в системе здравоохранения</span></a><a class="block-tab" href="#block-2" aria-controls="block-2"><span class="tab-number">02</span><span>Стратегическое управление и результат</span></a><a class="block-tab" href="#block-3" aria-controls="block-3"><span class="tab-number">03</span><span>Управление процессами и повышение эффективности</span></a><a class="block-tab" href="#block-4" aria-controls="block-4"><span class="tab-number">04</span><span>Качество, безопасность, пациентоцентричность</span></a><a class="block-tab" href="#block-5" aria-controls="block-5"><span class="tab-number">05</span><span>Ресурсы и устойчивость</span></a><a class="block-tab" href="#block-6" aria-controls="block-6"><span class="tab-number">06</span><span>Люди, команды, организационная среда</span></a><a class="block-tab" href="#block-7" aria-controls="block-7"><span class="tab-number">07</span><span>Коммуникации и влияние</span></a><a class="block-tab" href="#block-8" aria-controls="block-8"><span class="tab-number">08</span><span>Цифровое управление, данные, ИБ</span></a></nav><main id="content"><article class="block-panel" id="block-1" aria-labelledby="b1-block-1-title"><div class="block-layout"><header class="block-header"><h2 id="b1-block-1-title" class="block-title">Навигация в системе здравоохранения</h2><p class="sub">Блок 1 · Знания, умения и примеры управленческого поведения</p><div class="meta"><span class="badge badge-blue">3 компетенции</span><span class="badge badge-ok">Содержание согласовано</span><span class="badge badge-muted">18 сентября 2026</span></div><p class="intro">Понимать устройство системы: кто принимает решения, какими документами руководствуется и как организовано планирование. Каждая компетенция раскрыта через необходимые знания, практические умения и пример корректного управленческого поведения.</p></header><nav class="block-toc" aria-label="Оглавление блока 1"><p class="nav-group">Содержание блока</p><a href="#b1-overview">Обзор компетенций</a>
+<a class="nav-main" href="#b1-participants">1.1. Участники системы</a>
+<a class="nav-l2" href="#b1-participants-knows">Что знает</a>
+<a class="nav-l2" href="#b1-participants-skills">Что умеет</a>
+<a class="nav-l2" href="#b1-participants-example">Пример поведения</a>
+<a class="nav-main" href="#b1-documents">1.2. Системообразующие документы</a>
+<a class="nav-l2" href="#b1-documents-knows">Что знает</a>
+<a class="nav-l2" href="#b1-documents-skills">Что умеет</a>
+<a class="nav-l2" href="#b1-documents-example">Пример поведения</a>
+<a class="nav-main" href="#b1-planning">1.3. Планирование системы</a>
+<a class="nav-l2" href="#b1-planning-knows">Что знает</a>
+<a class="nav-l2" href="#b1-planning-skills">Что умеет</a>
+<a class="nav-l2" href="#b1-planning-example">Пример поведения</a>
+<p class="nav-note">Участники → документы → планирование</p></nav><div class="block-content"><section class="overview" id="b1-overview" aria-labelledby="b1-overview-title"><h3 id="b1-overview-title">Три вопроса управленческой навигации</h3><p>От распределения полномочий — к основаниям и порядку принятия решений.</p><div class="overview-grid"><a class="overview-card" href="#b1-participants"><span class="code">1.1</span><strong>Кто принимает решение?</strong><span class="question">Полномочия, ответственность и взаимодействие.</span></a><a class="overview-card" href="#b1-documents"><span class="code">1.2</span><strong>На каком основании?</strong><span class="question">Назначение, статус и применимость документов.</span></a><a class="overview-card" href="#b1-planning"><span class="code">1.3</span><strong>В каком порядке?</strong><span class="question">Участники, этапы и связь плановых решений.</span></a></div></section>
+<section id="b1-participants" aria-labelledby="b1-participants-title"><div class="section-heading"><span class="number" aria-hidden="true">1.1</span><div><p class="section-label">Компетенция 1.1</p><h3 id="b1-participants-title">Участники системы, их полномочия и взаимодействие</h3></div></div><div class="columns">
+<div class="knowledge" id="b1-participants-knows"><h4>Что знает</h4><ul>
+<li>Основных участников системы здравоохранения: органы власти, фонды ОМС, страховые медицинские и медицинские организации.</li>
+<li>Их функции, полномочия и зоны ответственности.</li>
+<li>Как устроены отношения подчинения, регулирования, контроля и финансирования между участниками.</li>
+</ul></div>
+<div class="skills" id="b1-participants-skills"><h4>Что умеет</h4><ul>
+<li>Определять, в чьей компетенции находится конкретный управленческий вопрос.</li>
+<li>Различать, кто принимает решение, кто участвует в согласовании и кто отвечает за исполнение.</li>
+<li>Выбирать порядок взаимодействия с учётом собственных полномочий и полномочий других участников.</li>
+</ul></div>
+</div><div class="example" id="b1-participants-example"><h4>Пример корректного управленческого поведения</h4><p>Для решения проблемы доступности обследований необходимо взаимодействие нескольких медицинских организаций. Руководитель определяет, какие изменения может провести самостоятельно, какие требуют договорённостей с другими организациями, а какие — решения органа управления. Обращается к соответствующим участникам с конкретными предложениями в пределах их полномочий.</p></div></section>
+<section id="b1-documents" aria-labelledby="b1-documents-title"><div class="section-heading"><span class="number" aria-hidden="true">1.2</span><div><p class="section-label">Компетенция 1.2</p><h3 id="b1-documents-title">Системообразующие документы: назначение и иерархия</h3></div></div><div class="columns">
+<div class="knowledge" id="b1-documents-knows"><h4>Что знает</h4><ul>
+<li>Основные типы документов, регулирующих здравоохранение: законы, подзаконные акты, порядки оказания помощи, стандарты, клинические рекомендации и локальные документы.</li>
+<li>Их назначение, юридический статус и область применения.</li>
+<li>Как соотносятся документы разных уровней и где искать их актуальные редакции.</li>
+</ul></div>
+<div class="skills" id="b1-documents-skills"><h4>Что умеет</h4><ul>
+<li>Находить документы, относящиеся к конкретному управленческому вопросу.</li>
+<li>Проверять актуальность документа и применимость его положений к своей организации и ситуации.</li>
+<li>Определять, какие требования необходимо учесть в решении, и выявлять вопросы, требующие дополнительного разъяснения.</li>
+</ul></div>
+</div><div class="example" id="b1-documents-example"><h4>Пример корректного управленческого поведения</h4><p>При подготовке нового направления медицинской помощи руководитель устанавливает, какие документы определяют условия его организации. Проверяет действующие редакции, выделяет применимые требования и на их основе формирует перечень необходимых действий. Спорные положения уточняет с профильными специалистами до принятия решения.</p></div></section>
+<section id="b1-planning" aria-labelledby="b1-planning-title"><div class="section-heading"><span class="number" aria-hidden="true">1.3</span><div><p class="section-label">Компетенция 1.3</p><h3 id="b1-planning-title">Планирование системы: порядок, участники и связь решений</h3></div></div><div class="columns">
+<div class="knowledge" id="b1-planning-knows"><h4>Что знает</h4><ul>
+<li>Как связаны цели развития здравоохранения, программы, финансовое обеспечение, объёмы медицинской помощи и задания для организаций.</li>
+<li>Назначение программы государственных гарантий и территориальных программ.</li>
+<li>Основных участников, этапы и сроки планирования, а также порядок согласования и корректировки решений.</li>
+</ul></div>
+<div class="skills" id="b1-planning-skills"><h4>Что умеет</h4><ul>
+<li>Определять, какими плановыми решениями заданы условия работы медицинской организации.</li>
+<li>Прослеживать связь между потребностью в помощи, запланированными объёмами и необходимыми ресурсами.</li>
+<li>Определять, кому, когда и в каком порядке направить обоснованные предложения об изменении плановых параметров.</li>
+</ul></div>
+</div><div class="example" id="b1-planning-example"><h4>Пример корректного управленческого поведения</h4><p>Руководитель выявляет устойчивый рост потребности в определённом виде помощи. Сопоставляет данные о потребности с запланированными объёмами и возможностями организации. Определяет, какие параметры требуют пересмотра, и направляет обоснованное предложение участникам, уполномоченным принять решение, с учётом установленного порядка и сроков планирования.</p></div></section></div></div></article>
+<article class="block-panel" id="block-2" aria-labelledby="b2-block-2-title"><div class="block-layout"><header class="block-header"><h2 id="b2-block-2-title" class="block-title">Стратегическое управление и результат</h2><p class="sub">Блок 2 · Знания, умения и примеры управленческого поведения</p><div class="meta"><span class="badge badge-blue">3 компетенции</span><span class="badge badge-blue">Подготовлено к общему просмотру</span><span class="badge badge-muted">24 сентября 2026</span></div><p class="intro">Определять цели и приоритеты развития, организовывать достижение результатов и принимать обоснованные решения в условиях неопределённости.</p></header><nav class="block-toc" aria-label="Оглавление блока 2"><p class="nav-group">Содержание блока</p><a href="#b2-overview">Обзор компетенций</a>
+<a class="nav-main" href="#b2-priorities">2.1. Цели и приоритеты</a>
+<a class="nav-l2" href="#b2-priorities-knows">Что знает</a>
+<a class="nav-l2" href="#b2-priorities-skills">Что умеет</a>
+<a class="nav-l2" href="#b2-priorities-example">Пример поведения</a>
+<a class="nav-main" href="#b2-results">2.2. Достижение результатов</a>
+<a class="nav-l2" href="#b2-results-knows">Что знает</a>
+<a class="nav-l2" href="#b2-results-skills">Что умеет</a>
+<a class="nav-l2" href="#b2-results-example">Пример поведения</a>
+<a class="nav-main" href="#b2-uncertainty">2.3. Решения при неопределённости</a>
+<a class="nav-l2" href="#b2-uncertainty-knows">Что знает</a>
+<a class="nav-l2" href="#b2-uncertainty-skills">Что умеет</a>
+<a class="nav-l2" href="#b2-uncertainty-example">Пример поведения</a>
+<p class="nav-note">Цели → результат → решения при неопределённости</p></nav><div class="block-content"><section class="overview" id="b2-overview" aria-labelledby="b2-overview-title"><h3 id="b2-overview-title">Три задачи стратегического управления</h3><p>От выбора направления — к достижению результата и обоснованным решениям при изменении условий.</p><div class="overview-grid"><a class="overview-card" href="#b2-priorities"><span class="code">2.1</span><strong>К чему стремимся?</strong><span class="question">Направления развития, цели и выбор приоритетов.</span></a><a class="overview-card" href="#b2-results"><span class="code">2.2</span><strong>Как достигаем результата?</strong><span class="question">Действия, показатели и корректировка исполнения.</span></a><a class="overview-card" href="#b2-uncertainty"><span class="code">2.3</span><strong>Как действуем при неопределённости?</strong><span class="question">Варианты, риски и условия пересмотра решений.</span></a></div></section>
+<section id="b2-priorities" aria-labelledby="b2-priorities-title"><div class="section-heading"><span class="number" aria-hidden="true">2.1</span><div><p class="section-label">Компетенция 2.1</p><h3 id="b2-priorities-title">Стратегическое целеполагание и выбор приоритетов</h3></div></div><div class="columns">
+<div class="knowledge" id="b2-priorities-knows"><h4>Что знает</h4><ul>
+<li>Как связаны потребности населения и пациентов, цели развития здравоохранения и задачи разных уровней управления.</li>
+<li>Какие изменения внешней среды, внутренние возможности и ограничения необходимо учитывать при выборе направлений развития.</li>
+<li>Принципы постановки целей и выбора приоритетов с учётом ожидаемого эффекта, ресурсов и сроков.</li>
+</ul></div>
+<div class="skills" id="b2-priorities-skills"><h4>Что умеет</h4><ul>
+<li>Анализировать ситуацию в пределах своей ответственности, выявлять ключевые проблемы и определять направления развития.</li>
+<li>Формулировать цели через ожидаемые изменения, согласовывать их с целями других уровней управления и учитывать последствия для участников системы.</li>
+<li>Сравнивать возможные направления развития, обосновывать выбор приоритетов и определять, какие инициативы следует отложить.</li>
+</ul></div>
+</div><div class="example" id="b2-priorities-example"><h4>Пример корректного управленческого поведения</h4><p>Региональный руководитель рассматривает предложения по развитию специализированной помощи и повышению доступности первичной помощи. Сопоставляет потребности населения, территориальные различия, ожидаемый эффект и ресурсные ограничения. Определяет приоритеты, формулирует результаты для региона и согласует вклад участвующих организаций.</p></div></section>
+<section id="b2-results" aria-labelledby="b2-results-title"><div class="section-heading"><span class="number" aria-hidden="true">2.2</span><div><p class="section-label">Компетенция 2.2</p><h3 id="b2-results-title">Управление достижением результатов</h3></div></div><div class="columns">
+<div class="knowledge" id="b2-results-knows"><h4>Что знает</h4><ul>
+<li>Как связывать стратегические цели с программами, проектами и планами действий, распределять ответственность и согласовывать вклад участников.</li>
+<li>Чем показатели выполненных мероприятий отличаются от показателей достигнутого результата.</li>
+<li>Как организовать мониторинг продвижения к цели, разбор отклонений и корректировку действий.</li>
+</ul></div>
+<div class="skills" id="b2-results-skills"><h4>Что умеет</h4><ul>
+<li>Переводить цели в согласованную систему действий с ответственными, сроками и необходимыми ресурсами.</li>
+<li>Определять показатели результата, их исходные и целевые значения, источники данных и периодичность оценки.</li>
+<li>Выявлять причины отклонений, согласовывать корректирующие действия и проверять, приводят ли они к ожидаемому эффекту.</li>
+</ul></div>
+</div><div class="example" id="b2-results-example"><h4>Пример корректного управленческого поведения</h4><p>Руководитель подразделения ставит цель сократить ожидание обследований. Согласует необходимые изменения со смежными службами, определяет ответственных и показатели. При оценке результатов обнаруживает, что мероприятия выполнены, но общий срок ожидания не сократился. Выясняет причины, корректирует план совместно с участниками и повторно оценивает результат.</p></div></section>
+<section id="b2-uncertainty" aria-labelledby="b2-uncertainty-title"><div class="section-heading"><span class="number" aria-hidden="true">2.3</span><div><p class="section-label">Компетенция 2.3</p><h3 id="b2-uncertainty-title">Принятие решений в условиях неопределённости</h3></div></div><div class="columns">
+<div class="knowledge" id="b2-uncertainty-knows"><h4>Что знает</h4><ul>
+<li>Какие виды неопределённости влияют на решения: недостаток данных, изменение условий и непредсказуемость действий других участников.</li>
+<li>Способы сравнения вариантов, рассмотрения сценариев и оценки рисков, включая последствия для разных групп и территорий.</li>
+<li>Как учитывать обратимость решения, возможность поэтапного внедрения и условия его пересмотра.</li>
+</ul></div>
+<div class="skills" id="b2-uncertainty-skills"><h4>Что умеет</h4><ul>
+<li>Отделять установленные факты от предположений и определять, какую информацию необходимо получить до принятия решения.</li>
+<li>Сравнивать варианты по ожидаемому эффекту, ресурсам, рискам и последствиям, включая неблагоприятные сценарии и последствия отсрочки решения.</li>
+<li>Принимать решения в доступные сроки и в пределах полномочий, обозначать допущения и устанавливать условия пересмотра.</li>
+</ul></div>
+</div><div class="example" id="b2-uncertainty-example"><h4>Пример корректного управленческого поведения</h4><p>Руководитель федерального направления рассматривает распространение новой модели организации помощи. Результаты пилотов различаются, данных о применимости во всех регионах недостаточно. Он определяет критические неопределённости, сопоставляет варианты внедрения и выбирает поэтапное расширение. Задаёт критерии оценки и условия, при которых модель потребуется изменить или приостановить её распространение.</p></div></section></div></div></article>
+<article class="block-panel" id="block-3" aria-labelledby="b3-block-3-title"><div class="block-layout"><header class="block-header"><h2 id="b3-block-3-title" class="block-title">Управление процессами и повышение эффективности</h2><p class="sub">Блок 3 · Знания, умения и примеры управленческого поведения</p><div class="meta"><span class="badge badge-blue">3 компетенции</span><span class="badge badge-ok">Содержание согласовано</span><span class="badge badge-muted">18 сентября 2026</span></div><p class="intro">Видеть систему процессов, описывать текущее состояние, находить причины проблем и проектировать улучшения.</p></header><nav class="block-toc" aria-label="Оглавление блока 3"><p class="nav-group">Содержание блока</p><a href="#b3-overview">Обзор компетенций</a>
+<a class="nav-main" href="#b3-process-system">3.1. Процессный подход и системное видение</a>
+<a class="nav-l2" href="#b3-process-system-knows">Что знает</a>
+<a class="nav-l2" href="#b3-process-system-skills">Что умеет</a>
+<a class="nav-l2" href="#b3-process-system-example">Пример поведения</a>
+<a class="nav-main" href="#b3-as-is">3.2. Описание и диагностика — AS IS</a>
+<a class="nav-l2" href="#b3-as-is-knows">Что знает</a>
+<a class="nav-l2" href="#b3-as-is-skills">Что умеет</a>
+<a class="nav-l2" href="#b3-as-is-example">Пример поведения</a>
+<a class="nav-main" href="#b3-to-be">3.3. Проектирование и улучшение — TO BE</a>
+<a class="nav-l2" href="#b3-to-be-knows">Что знает</a>
+<a class="nav-l2" href="#b3-to-be-skills">Что умеет</a>
+<a class="nav-l2" href="#b3-to-be-example">Пример поведения</a>
+<p class="nav-note">Система процессов → AS IS → TO BE</p></nav><div class="block-content"><section class="overview" id="b3-overview" aria-labelledby="b3-overview-title"><h3 id="b3-overview-title">От понимания системы — к улучшению процессов</h3><p>Процессная модель и взаимосвязи → текущее состояние и причины дефектов → целевое состояние и устойчивые улучшения.</p><div class="overview-grid"><a class="overview-card" href="#b3-process-system"><span class="code">3.1</span><strong>Как связаны процессы?</strong><span class="question">Процессная модель, взаимосвязи и общий результат.</span></a><a class="overview-card" href="#b3-as-is"><span class="code">3.2</span><strong>Как устроена работа сейчас?</strong><span class="question">Фактическая работа, дефекты и их причины.</span></a><a class="overview-card" href="#b3-to-be"><span class="code">3.3</span><strong>Как должен работать процесс?</strong><span class="question">Целевая модель, инструменты и закрепление улучшений.</span></a></div></section>
+<section id="b3-process-system" aria-labelledby="b3-process-system-title"><div class="section-heading"><span class="number" aria-hidden="true">3.1</span><div><p class="section-label">Компетенция 3.1</p><h3 id="b3-process-system-title">Процессный подход и системное видение</h3></div></div><div class="columns">
+<div class="knowledge" id="b3-process-system-knows"><h4>Что знает</h4><ul>
+<li>Принципы процессного подхода: входы и выходы процесса, потребители результата, участники, владелец, ресурсы и показатели.</li>
+<li>Как строится процессная модель: основные, обеспечивающие и управленческие процессы, их декомпозиция и взаимосвязи.</li>
+<li>Как изменение одного процесса влияет на другие процессы и общий результат; почему локальное улучшение может ухудшить работу системы.</li>
+</ul></div>
+<div class="skills" id="b3-process-system-skills"><h4>Что умеет</h4><ul>
+<li>Представлять деятельность подразделения, организации или системы здравоохранения как совокупность взаимосвязанных процессов.</li>
+<li>Определять границы процессов, их результаты, владельцев и участников, выявлять зависимости и точки передачи ответственности.</li>
+<li>Оценивать последствия изменений для всей цепочки процессов, включая взаимодействие между организациями и уровнями управления.</li>
+</ul></div>
+</div><div class="example" id="b3-process-system-example"><h4>Пример корректного управленческого поведения</h4><p>При увеличении объёма диагностических исследований руководитель рассматривает всю цепочку: направление, запись, подготовку пациента, исследование, передачу результата и принятие клинического решения. Проверяет, не приведёт ли увеличение пропускной способности одного этапа к очередям и перегрузке на других.</p></div></section>
+<section id="b3-as-is" aria-labelledby="b3-as-is-title"><div class="section-heading"><span class="number" aria-hidden="true">3.2</span><div><p class="section-label">Компетенция 3.2</p><h3 id="b3-as-is-title">Описание и диагностика текущих процессов — AS IS</h3></div></div><div class="columns">
+<div class="knowledge" id="b3-as-is-knows"><h4>Что знает</h4><ul>
+<li>Методы описания и визуализации процессов: схемы процессов, карты потоков создания ценности, способы отражения действий, решений и взаимодействия участников.</li>
+<li>Способы изучения фактической работы: наблюдение, обсуждение с участниками, анализ документов и данных о времени, нагрузке, ошибках и повторной работе.</li>
+<li>Методы выявления потерь, узких мест и коренных причин проблем; различие между симптомом и причиной.</li>
+</ul></div>
+<div class="skills" id="b3-as-is-skills"><h4>Что умеет</h4><ul>
+<li>Описывать процесс «как есть» на основе фактической работы и проверять модель вместе с участниками.</li>
+<li>Находить ожидание, дублирование, лишние действия, возвраты, ошибки, неравномерную нагрузку и разрывы взаимодействия.</li>
+<li>Устанавливать причины дефектов, оценивать их влияние на результат и определять приоритеты улучшения.</li>
+</ul></div>
+</div><div class="example" id="b3-as-is-example"><h4>Пример корректного управленческого поведения</h4><p>При жалобах на длительное согласование заявок руководитель прослеживает несколько реальных заявок от подачи до исполнения. Строит схему AS IS, измеряет время действий и ожидания, выявляет повторные согласования и возвраты. Устанавливает, какие причины связаны с требованиями к заявке, распределением полномочий и передачей информации.</p></div></section>
+<section id="b3-to-be" aria-labelledby="b3-to-be-title"><div class="section-heading"><span class="number" aria-hidden="true">3.3</span><div><p class="section-label">Компетенция 3.3</p><h3 id="b3-to-be-title">Проектирование и совершенствование процессов — TO BE</h3></div></div><div class="columns">
+<div class="knowledge" id="b3-to-be-knows"><h4>Что знает</h4><ul>
+<li>Принципы проектирования целевого процесса: устранение причин дефектов, упрощение последовательности действий, согласование взаимодействия и предупреждение ошибок.</li>
+<li>Назначение и область применения подходов и инструментов улучшения: Lean, 5С, стандартизация работы, визуальное управление, защита от ошибок, цикл PDCA.</li>
+<li>Как процессный подход, ответственность за процессы, показатели и постоянное улучшение связаны в системе менеджмента качества — СМК.</li>
+</ul></div>
+<div class="skills" id="b3-to-be-skills"><h4>Что умеет</h4><ul>
+<li>Проектировать процесс «как должно быть», связывая каждое существенное изменение с выявленной проблемой и ожидаемым результатом.</li>
+<li>Выбирать и применять подходящие инструменты: например, 5С для организации рабочего пространства, стандартизацию для устойчивого выполнения операций, анализ потока для сокращения ожидания и лишних действий.</li>
+<li>Проверять целевую модель на практике, сопоставлять результаты с исходным состоянием и оценивать влияние на связанные процессы.</li>
+<li>Закреплять улучшения через распределение ответственности, обучение, обновление правил работы и регулярную оценку процесса в рамках СМК.</li>
+</ul></div>
+</div><div class="example" id="b3-to-be-example"><h4>Пример корректного управленческого поведения</h4><p>Для процесса согласования заявок руководитель разрабатывает TO BE: устраняет дублирующие согласования, вводит единые требования к входящей заявке и понятный порядок её передачи. Проверяет новый процесс на ограниченном участке, оценивает сроки, ошибки и нагрузку участников. По результатам корректирует модель и закрепляет новый порядок работы.</p></div></section></div></div></article>
+<article class="block-panel" id="block-4" aria-labelledby="b4-block-4-title"><div class="block-layout"><header class="block-header"><h2 id="b4-block-4-title" class="block-title">Качество, безопасность, пациентоцентричность</h2><p class="sub">Блок 4 · Знания, умения и примеры управленческого поведения</p><div class="meta"><span class="badge badge-blue">3 компетенции</span><span class="badge badge-ok">Содержание согласовано</span><span class="badge badge-muted">23 сентября 2026</span></div><p class="intro">Оценивать качество помощи, предупреждать вред и учитывать потребности человека в управленческих решениях.</p></header><nav class="block-toc" aria-label="Оглавление блока 4"><p class="nav-group">Содержание блока</p><a href="#b4-overview">Обзор компетенций</a>
+<a class="nav-main" href="#b4-quality">4.1. Качество медицинской помощи</a>
+<a class="nav-l2" href="#b4-quality-knows">Что знает</a>
+<a class="nav-l2" href="#b4-quality-skills">Что умеет</a>
+<a class="nav-l2" href="#b4-quality-example">Пример поведения</a>
+<a class="nav-main" href="#b4-safety">4.2. Безопасность и риски</a>
+<a class="nav-l2" href="#b4-safety-knows">Что знает</a>
+<a class="nav-l2" href="#b4-safety-skills">Что умеет</a>
+<a class="nav-l2" href="#b4-safety-example">Пример поведения</a>
+<a class="nav-main" href="#b4-patient-experience">4.3. Потребности и опыт пациента</a>
+<a class="nav-l2" href="#b4-patient-experience-knows">Что знает</a>
+<a class="nav-l2" href="#b4-patient-experience-skills">Что умеет</a>
+<a class="nav-l2" href="#b4-patient-experience-example">Пример поведения</a>
+<a class="nav-main" href="#b4-references">Методические ориентиры</a>
+<p class="nav-note">Качество → безопасность → пациентский опыт</p></nav><div class="block-content"><section class="overview" id="b4-overview" aria-labelledby="b4-overview-title"><h3 id="b4-overview-title">Три задачи управления качеством помощи</h3><p>Результаты помощи → предупреждение вреда → потребности и опыт пациента.</p><div class="overview-grid"><a class="overview-card" href="#b4-quality"><span class="code">4.1</span><strong>Как оценить качество помощи?</strong><span class="question">Критерии, результаты и обоснованные меры улучшения.</span></a><a class="overview-card" href="#b4-safety"><span class="code">4.2</span><strong>Как предупредить вред?</strong><span class="question">Выявление рисков, защитные меры и обучение на событиях.</span></a><a class="overview-card" href="#b4-patient-experience"><span class="code">4.3</span><strong>Как помощь выглядит для человека?</strong><span class="question">Путь пациента, барьеры, участие и обратная связь.</span></a></div></section>
+<section id="b4-quality" aria-labelledby="b4-quality-title"><div class="section-heading"><span class="number" aria-hidden="true">4.1</span><div><p class="section-label">Компетенция 4.1</p><h3 id="b4-quality-title">Управление качеством медицинской помощи</h3></div></div><div class="columns">
+<div class="knowledge" id="b4-quality-knows"><h4>Что знает</h4><ul>
+<li>Основные характеристики качества помощи: клиническая обоснованность, результативность, своевременность, доступность и преемственность.</li>
+<li>Как оценивать качество через условия оказания помощи, выполнение процессов и результаты для пациентов; какие возможности и ограничения есть у показателей каждой группы.</li>
+<li>Методы оценки качества: клинический аудит, экспертный разбор случаев, анализ исходов и сравнение результатов с учётом особенностей пациентов и условий оказания помощи.</li>
+</ul></div>
+<div class="skills" id="b4-quality-skills"><h4>Что умеет</h4><ul>
+<li>Определять критерии и показатели качества для своей области ответственности — от подразделения до системы здравоохранения.</li>
+<li>Сопоставлять данные из разных источников, выявлять отклонения и различия между подразделениями, организациями и территориями, проверять возможные причины.</li>
+<li>Организовывать совместно с профильными специалистами меры по улучшению качества и оценивать их влияние на результаты помощи.</li>
+</ul></div>
+</div><div class="example" id="b4-quality-example"><h4>Пример корректного управленческого поведения</h4><p>Региональный руководитель выявляет различия в повторных госпитализациях между территориями. Проверяет сопоставимость данных и особенности пациентов, организует экспертный разбор. Выясняет, какую роль играют решения при выписке и последующее наблюдение. Совместно с участниками определяет меры и оценивает изменение результатов.</p></div></section>
+<section id="b4-safety" aria-labelledby="b4-safety-title"><div class="section-heading"><span class="number" aria-hidden="true">4.2</span><div><p class="section-label">Компетенция 4.2</p><h3 id="b4-safety-title">Управление безопасностью и рисками причинения вреда</h3></div></div><div class="columns">
+<div class="knowledge" id="b4-safety-knows"><h4>Что знает</h4><ul>
+<li>Основные источники рисков для пациента: клинические и организационные решения, передача информации, применение лекарств и оборудования, условия работы и человеческий фактор.</li>
+<li>Подходы к предупреждению рисков и изучению событий: предварительный анализ возможных отказов, регистрация инцидентов, разбор коренных причин, анализ ситуаций, в которых вред удалось предотвратить.</li>
+<li>Принципы культуры безопасности: открытое сообщение о проблемах, справедливое рассмотрение действий участников, обучение на событиях и ответственность за выполнение мер.</li>
+</ul></div>
+<div class="skills" id="b4-safety-skills"><h4>Что умеет</h4><ul>
+<li>Выявлять риски до причинения вреда, оценивать их значимость и организовывать защитные меры.</li>
+<li>Создавать условия для сообщения об инцидентах и проводить разбор с учётом системных причин и действий участников.</li>
+<li>Выбирать меры, снижающие вероятность повторения события, назначать ответственных и проверять, работают ли предусмотренные меры защиты.</li>
+</ul></div>
+</div><div class="example" id="b4-safety-example"><h4>Пример корректного управленческого поведения</h4><p>В подразделении обнаружили ошибку при подготовке лекарства до его введения пациенту. Руководитель организует разбор: проверяет маркировку, хранение, назначение и условия работы сотрудников. По результатам меняет выявленные небезопасные условия и проверяет выполнение мер.</p></div></section>
+<section id="b4-patient-experience" aria-labelledby="b4-patient-experience-title"><div class="section-heading"><span class="number" aria-hidden="true">4.3</span><div><p class="section-label">Компетенция 4.3</p><h3 id="b4-patient-experience-title">Пациентоцентричность и использование пациентского опыта</h3></div></div><div class="columns">
+<div class="knowledge" id="b4-patient-experience-knows"><h4>Что знает</h4><ul>
+<li>Принципы уважения достоинства, потребностей и предпочтений человека, понятного информирования и участия пациента в решениях о помощи.</li>
+<li>Как изучать пациентский опыт: анализ пути пациента, интервью, опросы, обращения и жалобы; чем опыт получения помощи отличается от общей удовлетворённости.</li>
+<li>Какие барьеры возникают у разных групп населения при обращении за помощью и как управленческие решения влияют на доступность и непрерывность помощи.</li>
+</ul></div>
+<div class="skills" id="b4-patient-experience-skills"><h4>Что умеет</h4><ul>
+<li>Рассматривать организацию помощи с позиции пациента и его близких, выявлять трудности на всём пути получения помощи.</li>
+<li>Включать обратную связь и участие пациентов в разработку и оценку решений, учитывать потребности людей, чей опыт недостаточно представлен в обычных опросах.</li>
+<li>Превращать выявленные проблемы в конкретные изменения и проверять, стало ли людям проще получить необходимую помощь, понять рекомендации и продолжить лечение.</li>
+</ul></div>
+</div><div class="example" id="b4-patient-experience-example"><h4>Пример корректного управленческого поведения</h4><p>При разработке общего порядка записи руководитель системного уровня организует его проверку с участием пациентов из разных территорий, включая людей с ограниченным доступом к цифровым сервисам. Выявляет барьеры, предусматривает доступные способы обращения и оценивает, удаётся ли пациентам фактически получить помощь.</p></div></section>
+<section class="reference-section" id="b4-references" aria-labelledby="b4-references-title"><h3 id="b4-references-title">Методические ориентиры</h3><ul><li><a href="https://www.who.int/health-topics/quality-of-care">ВОЗ: качество помощи</a> — 4.1. Характеристики качества помощи и результаты для пациентов.</li><li><a href="https://www.who.int/teams/integrated-health-services/patient-safety/research/incident-reporting-and-learning-systems">ВОЗ: регистрация инцидентов и обучение</a> — 4.2. Связь сообщений об инцидентах с обучением и предупреждением повторного вреда.</li><li><a href="https://www.who.int/health-topics/integrated-people-centered-care">ВОЗ: помощь, ориентированная на человека</a> — 4.3. Участие людей, учёт их потребностей и предпочтений.</li></ul></section></div></div></article>
+<article class="block-panel" id="block-5" aria-labelledby="b5-block-5-title"><div class="block-layout"><header class="block-header"><h2 id="b5-block-5-title" class="block-title">Ресурсы и устойчивость</h2><p class="sub">Блок 5 · Знания, умения и примеры управленческого поведения</p><div class="meta"><span class="badge badge-blue">3 компетенции</span><span class="badge badge-blue">Подготовлено к общему просмотру</span><span class="badge badge-muted">24 сентября 2026</span></div><p class="intro">Определять потребность в ресурсах, обосновывать их распределение и обеспечивать устойчивую работу при ограничениях и сбоях.</p></header><nav class="block-toc" aria-label="Оглавление блока 5"><p class="nav-group">Содержание блока</p><a href="#b5-overview">Обзор компетенций</a>
+<a class="nav-main" href="#b5-resource-planning">5.1. Потребность и распределение</a>
+<a class="nav-l2" href="#b5-resource-planning-knows">Что знает</a>
+<a class="nav-l2" href="#b5-resource-planning-skills">Что умеет</a>
+<a class="nav-l2" href="#b5-resource-planning-example">Пример поведения</a>
+<a class="nav-main" href="#b5-economic-decisions">5.2. Экономика и финансовое планирование</a>
+<a class="nav-l2" href="#b5-economic-decisions-knows">Что знает</a>
+<a class="nav-l2" href="#b5-economic-decisions-skills">Что умеет</a>
+<a class="nav-l2" href="#b5-economic-decisions-example">Пример поведения</a>
+<a class="nav-main" href="#b5-continuity">5.3. Риски и непрерывность</a>
+<a class="nav-l2" href="#b5-continuity-knows">Что знает</a>
+<a class="nav-l2" href="#b5-continuity-skills">Что умеет</a>
+<a class="nav-l2" href="#b5-continuity-example">Пример поведения</a>
+<a class="nav-main" href="#b5-references">Методические ориентиры</a>
+<p class="nav-note">Потребность → распределение → устойчивость</p></nav><div class="block-content"><section class="overview" id="b5-overview" aria-labelledby="b5-overview-title"><h3 id="b5-overview-title">От потребности — к устойчивому обеспечению</h3><p>Потребность и возможности → экономическое обоснование → непрерывность работы.</p><div class="overview-grid"><a class="overview-card" href="#b5-resource-planning"><span class="code">5.1</span><strong>Какие ресурсы необходимы?</strong><span class="question">Потребности, мощности, ограничения и приоритеты.</span></a><a class="overview-card" href="#b5-economic-decisions"><span class="code">5.2</span><strong>Как обосновать затраты?</strong><span class="question">Стоимость вариантов, финансовое обеспечение и обязательства.</span></a><a class="overview-card" href="#b5-continuity"><span class="code">5.3</span><strong>Как сохранить работу при сбое?</strong><span class="question">Критические зависимости, резервы и восстановление.</span></a></div></section>
+<section id="b5-resource-planning" aria-labelledby="b5-resource-planning-title"><div class="section-heading"><span class="number" aria-hidden="true">5.1</span><div><p class="section-label">Компетенция 5.1</p><h3 id="b5-resource-planning-title">Планирование и распределение ресурсов</h3></div></div><div class="columns">
+<div class="knowledge" id="b5-resource-planning-knows"><h4>Что знает</h4><ul>
+<li>Как связывать потребности в помощи и планируемые результаты с необходимыми кадрами, временем, оборудованием, материалами и инфраструктурой.</li>
+<li>Методы оценки мощности, загрузки, запасов и ресурсных дисбалансов: расчёт потребности, ресурсный баланс и анализ ограничений с учётом сезонности, территориальных различий и взаимозависимости ресурсов.</li>
+<li>Принципы приоритизации потребностей и распределения ограниченных ресурсов с учётом доступности, качества и безопасности помощи.</li>
+</ul></div>
+<div class="skills" id="b5-resource-planning-skills"><h4>Что умеет</h4><ul>
+<li>Рассчитывать и обосновывать потребность в ресурсах на основе данных о потребности в помощи, объёмах работы и фактических возможностях.</li>
+<li>Выявлять критические дефициты, простои и дисбалансы, сравнивать варианты перераспределения, изменения организации работы и наращивания возможностей.</li>
+<li>Распределять ресурсы в пределах полномочий, согласовывать решения между участниками и направлять обоснованные предложения по вопросам, требующим решения другого уровня.</li>
+</ul></div>
+</div><div class="example" id="b5-resource-planning-example"><h4>Пример корректного управленческого поведения</h4><p>Региональный руководитель рассматривает нехватку специалистов в нескольких территориях. Сопоставляет потребность в помощи, фактическую занятость, нагрузку и доступность приёма. Сравнивает набор дополнительных сотрудников, совместную работу организаций и изменение графиков. Обосновывает сочетание мер, проверяет условия их реализации и оценивает, не создаёт ли перераспределение новый дефицит в соседних территориях.</p></div></section>
+<section id="b5-economic-decisions" aria-labelledby="b5-economic-decisions-title"><div class="section-heading"><span class="number" aria-hidden="true">5.2</span><div><p class="section-label">Компетенция 5.2</p><h3 id="b5-economic-decisions-title">Экономическое обоснование и финансовое планирование</h3></div></div><div class="columns">
+<div class="knowledge" id="b5-economic-decisions-knows"><h4>Что знает</h4><ul>
+<li>Как источники финансирования и механизмы оплаты помощи связаны с объёмами деятельности, затратами и устойчивостью выполнения обязательств.</li>
+<li>Основы экономики деятельности: постоянные и переменные, прямые и косвенные затраты, себестоимость, стоимость результата и полная стоимость владения оборудованием или решением.</li>
+<li>Принципы бюджетирования, анализа плановых и фактических показателей, планирования денежных поступлений и выплат; различие финансового результата и наличия средств для своевременного выполнения обязательств.</li>
+<li>Как оценивать экономическую целесообразность решения и его влияние на бюджет, учитывать неопределённость расчётов, финансовые риски и последствия для доступности помощи.</li>
+</ul></div>
+<div class="skills" id="b5-economic-decisions-skills"><h4>Что умеет</h4><ul>
+<li>Читать управленческую и финансовую отчётность в пределах своей ответственности, выявлять причины отклонений затрат, поступлений и исполнения обязательств.</li>
+<li>Сравнивать варианты по затратам и ожидаемому результату, учитывать расходы на внедрение и эксплуатацию, проверять расчёты при изменении объёмов, цен и условий финансирования.</li>
+<li>Готовить бюджет или финансовое обоснование вместе с профильными специалистами, согласовывать источники и сроки обеспечения, выявлять периоды недостатка средств и предлагать меры.</li>
+<li>Контролировать исполнение финансового плана, обосновывать корректировки и проверять их влияние на качество, доступность помощи и устойчивость работы.</li>
+</ul></div>
+</div><div class="example" id="b5-economic-decisions-example"><h4>Пример корректного управленческого поведения</h4><p>Руководитель медицинской организации планирует расширение амбулаторной помощи. Вместе со специалистами рассчитывает затраты на персонал, помещения и обеспечение работы, оценивает возможные объёмы и сроки поступления средств. Сравнивает несколько вариантов запуска, проверяет расчёты при меньшем объёме помощи и выявляет возможный недостаток средств в начале работы. Выбирает обеспеченный ресурсами вариант, определяет условия запуска и порядок контроля финансового плана.</p></div></section>
+<section id="b5-continuity" aria-labelledby="b5-continuity-title"><div class="section-heading"><span class="number" aria-hidden="true">5.3</span><div><p class="section-label">Компетенция 5.3</p><h3 id="b5-continuity-title">Управление ресурсными рисками и непрерывностью работы</h3></div></div><div class="columns">
+<div class="knowledge" id="b5-continuity-knows"><h4>Что знает</h4><ul>
+<li>Какие кадровые, финансовые, инфраструктурные и снабженческие зависимости могут привести к прекращению или существенному ограничению помощи.</li>
+<li>Подходы к оценке критичности услуг, формированию резервов, выбору альтернативных поставок и согласованию взаимопомощи.</li>
+<li>Принципы планирования непрерывности и восстановления: приоритеты, ответственные, условия перехода к резервному порядку и проверка готовности.</li>
+</ul></div>
+<div class="skills" id="b5-continuity-skills"><h4>Что умеет</h4><ul>
+<li>Выявлять критические зависимости и оценивать последствия их отказа для подразделения, организации, сети или системы здравоохранения.</li>
+<li>Разрабатывать и согласовывать планы действий при дефиците или сбое, определять приоритетные услуги, необходимые резервы, ответственных, условия запуска и порядок восстановления.</li>
+<li>Проводить проверки готовности, устранять выявленные слабые места и пересматривать планы по результатам реальных событий и изменений условий.</li>
+</ul></div>
+</div><div class="example" id="b5-continuity-example"><h4>Пример корректного управленческого поведения</h4><p>Руководитель системного уровня выявляет зависимость нескольких регионов от одного источника критически важных поставок. Организует оценку запасов и возможных последствий задержки, согласует с ответственными участниками альтернативное обеспечение и порядок взаимопомощи. Проверяет готовность плана на сценарии сбоя и корректирует условия его запуска.</p></div></section>
+<section class="reference-section" id="b5-references" aria-labelledby="b5-references-title"><h3 id="b5-references-title">Методические ориентиры</h3><ul><li><a href="https://www.who.int/health-topics/health-financing/">ВОЗ: финансирование здравоохранения</a> — 5.1–5.2. Связь финансирования и распределения средств с доступностью и качеством помощи.</li><li><a href="https://www.who.int/teams/health-financing-and-economics/health-financing/health-financing-policy/public-financial-management">ВОЗ: управление государственными финансами в здравоохранении</a> — 5.2. Формирование и исполнение бюджета, движение средств и финансовая подотчётность.</li><li><a href="https://www.who.int/publications/i/item/9789240048751">ВОЗ: инструменты устойчивости систем здравоохранения</a> — 5.3. Устойчивость на национальном и субнациональном уровнях.</li><li><a href="https://www.who.int/publications/i/item/9789240033337">ВОЗ: планирование непрерывности медицинской помощи</a> — 5.3. Подготовка к нарушениям работы и сохранение помощи на уровне медицинской организации.</li></ul></section></div></div></article>
+<article class="block-panel" id="block-6" aria-labelledby="b6-block-6-title"><div class="block-layout"><header class="block-header"><h2 id="b6-block-6-title" class="block-title">Люди, команды, организационная среда</h2><p class="sub">Блок 6 · Знания, умения и примеры управленческого поведения</p><div class="meta"><span class="badge badge-blue">3 компетенции</span><span class="badge badge-blue">Подготовлено к общему просмотру</span><span class="badge badge-muted">24 сентября 2026</span></div><p class="intro">Формировать работоспособные команды, развивать сотрудников и руководителей, создавать условия для ответственности, сотрудничества и устойчивой работы.</p></header><nav class="block-toc" aria-label="Оглавление блока 6"><p class="nav-group">Содержание блока</p><a href="#b6-overview">Обзор компетенций</a>
+<a class="nav-main" href="#b6-team-leadership">6.1. Команда и делегирование</a>
+<a class="nav-l2" href="#b6-team-leadership-knows">Что знает</a>
+<a class="nav-l2" href="#b6-team-leadership-skills">Что умеет</a>
+<a class="nav-l2" href="#b6-team-leadership-example">Пример поведения</a>
+<a class="nav-main" href="#b6-staff-development">6.2. Оценка и развитие</a>
+<a class="nav-l2" href="#b6-staff-development-knows">Что знает</a>
+<a class="nav-l2" href="#b6-staff-development-skills">Что умеет</a>
+<a class="nav-l2" href="#b6-staff-development-example">Пример поведения</a>
+<a class="nav-main" href="#b6-work-environment">6.3. Мотивация и рабочая среда</a>
+<a class="nav-l2" href="#b6-work-environment-knows">Что знает</a>
+<a class="nav-l2" href="#b6-work-environment-skills">Что умеет</a>
+<a class="nav-l2" href="#b6-work-environment-example">Пример поведения</a>
+<a class="nav-main" href="#b6-references">Методические ориентиры</a>
+<p class="nav-note">Команда → развитие → рабочая среда</p></nav><div class="block-content"><section class="overview" id="b6-overview" aria-labelledby="b6-overview-title"><h3 id="b6-overview-title">От организации команды — к её развитию</h3><p>Роли и полномочия → компетенции и развитие → мотивация и рабочая среда.</p><div class="overview-grid"><a class="overview-card" href="#b6-team-leadership"><span class="code">6.1</span><strong>Как организовать совместную работу?</strong><span class="question">Состав команды, роли, полномочия и ответственность.</span></a><a class="overview-card" href="#b6-staff-development"><span class="code">6.2</span><strong>Как развивать необходимые компетенции?</strong><span class="question">Обратная связь, практика, наставничество и преемственность.</span></a><a class="overview-card" href="#b6-work-environment"><span class="code">6.3</span><strong>Что помогает людям работать устойчиво?</strong><span class="question">Условия работы, справедливость, сотрудничество и удержание.</span></a></div></section>
+<section id="b6-team-leadership" aria-labelledby="b6-team-leadership-title"><div class="section-heading"><span class="number" aria-hidden="true">6.1</span><div><p class="section-label">Компетенция 6.1</p><h3 id="b6-team-leadership-title">Формирование команды и делегирование</h3></div></div><div class="columns">
+<div class="knowledge" id="b6-team-leadership-knows"><h4>Что знает</h4><ul>
+<li>Принципы формирования команды с учётом задач, необходимых компетенций и взаимодополняющих ролей.</li>
+<li>Методы постановки задач и делегирования: ожидаемый результат, критерии выполнения, полномочия, ресурсы, сроки и точки контроля.</li>
+<li>Как распределение ответственности и способ контроля влияют на самостоятельность, взаимодействие и нагрузку участников.</li>
+</ul></div>
+<div class="skills" id="b6-team-leadership-skills"><h4>Что умеет</h4><ul>
+<li>Определять необходимые роли и требования к участникам, подбирать и распределять людей с учётом компетенций, задач и реальной нагрузки.</li>
+<li>Делегировать задачи вместе с необходимыми полномочиями, согласовывать результат, границы самостоятельности и случаи обращения за помощью.</li>
+<li>Выстраивать взаимодействие и контроль исполнения, корректировать распределение работы и устранять разрывы ответственности.</li>
+</ul></div>
+</div><div class="example" id="b6-team-leadership-example"><h4>Пример корректного управленческого поведения</h4><p>Региональный руководитель формирует команду для реализации программы с участием нескольких организаций. Определяет необходимые роли, согласует участие специалистов с их руководителями и закрепляет полномочия. Устанавливает результаты и точки контроля, а при возникновении задержек уточняет причины и перераспределяет задачи с учётом нагрузки.</p></div></section>
+<section id="b6-staff-development" aria-labelledby="b6-staff-development-title"><div class="section-heading"><span class="number" aria-hidden="true">6.2</span><div><p class="section-label">Компетенция 6.2</p><h3 id="b6-staff-development-title">Оценка и развитие сотрудников и руководителей</h3></div></div><div class="columns">
+<div class="knowledge" id="b6-staff-development-knows"><h4>Что знает</h4><ul>
+<li>Способы оценки компетенций и результатов работы по наблюдаемому поведению и выполненным задачам; ограничения отдельных методов оценки.</li>
+<li>Инструменты развития: обратная связь, индивидуальный план, наставничество, обучение на практике и разбор выполненной работы.</li>
+<li>Принципы адаптации, развития управленческого резерва и подготовки преемников на критически важных ролях.</li>
+</ul></div>
+<div class="skills" id="b6-staff-development-skills"><h4>Что умеет</h4><ul>
+<li>Выявлять сильные стороны и потребности в развитии, обсуждать их на конкретных примерах и отделять недостаток навыка от недостатка условий или полномочий.</li>
+<li>Давать конкретную обратную связь по действиям и результатам, согласовывать цели развития, подбирать практические задачи и поддержку, оценивать применение новых навыков в работе.</li>
+<li>Организовывать адаптацию, наставничество и подготовку преемников в масштабе своей ответственности, связывать развитие с будущими задачами.</li>
+</ul></div>
+</div><div class="example" id="b6-staff-development-example"><h4>Пример корректного управленческого поведения</h4><p>Руководитель подразделения замечает, что новый старший сотрудник задерживает решения. На конкретных ситуациях выясняет, где не хватает навыков, а где — ясных полномочий. Уточняет границы самостоятельности, назначает наставника и согласует практические задания. Через установленный срок оценивает, как сотрудник справляется с аналогичными задачами.</p></div></section>
+<section id="b6-work-environment" aria-labelledby="b6-work-environment-title"><div class="section-heading"><span class="number" aria-hidden="true">6.3</span><div><p class="section-label">Компетенция 6.3</p><h3 id="b6-work-environment-title">Мотивация и развитие организационной среды</h3></div></div><div class="columns">
+<div class="knowledge" id="b6-work-environment-knows"><h4>Что знает</h4><ul>
+<li>Факторы мотивации и удержания: содержание работы, признание, справедливость решений, возможности развития и условия труда.</li>
+<li>Как нагрузка, стиль руководства и нормы взаимодействия влияют на сотрудничество, готовность обсуждать проблемы и кадровую устойчивость.</li>
+<li>Способы изучения рабочей среды: обратная связь сотрудников, анализ нагрузки, текучести и причин ухода; методы разбора и разрешения рабочих конфликтов.</li>
+</ul></div>
+<div class="skills" id="b6-work-environment-skills"><h4>Что умеет</h4><ul>
+<li>Выявлять причины демотивации, перегрузки и конфликтов с учётом позиции сотрудников и данных о работе.</li>
+<li>Создавать понятные и справедливые правила взаимодействия, обсуждать сложные ситуации и поддерживать возможность сообщать о проблемах без унижения и необоснованного давления.</li>
+<li>Разбирать рабочие конфликты с участниками, отделять факты от оценок, согласовывать решения и проверять соблюдение договорённостей.</li>
+<li>Выбирать меры по улучшению условий и удержанию сотрудников, проверять их результат и при необходимости менять управленческие практики.</li>
+</ul></div>
+</div><div class="example" id="b6-work-environment-example"><h4>Пример корректного управленческого поведения</h4><p>Руководитель системного уровня оценивает меры удержания кадров в разных территориях. Наряду с оплатой изучает нагрузку, возможности развития и условия работы с руководителями. Вместе с представителями территорий и работников подбирает меры для разных причин ухода. Оценивает результаты отдельно по территориям и группам сотрудников.</p></div></section>
+<section class="reference-section" id="b6-references" aria-labelledby="b6-references-title"><h3 id="b6-references-title">Методические ориентиры</h3><ul><li><a href="https://www.who.int/health-topics/health-workforce">ВОЗ: кадровые ресурсы здравоохранения</a> — 6.1–6.3. Подготовка, распределение, удержание и результативность кадров.</li><li><a href="https://www.who.int/europe/health-topics/health-workforce/building-health-workforce-leadership-capacity">ВОЗ: развитие руководителей в сфере кадров здравоохранения</a> — 6.1–6.2. Управленческие возможности для развития устойчивых кадровых ресурсов.</li></ul></section></div></div></article>
+<article class="block-panel" id="block-7" aria-labelledby="b7-block-7-title"><div class="block-layout"><header class="block-header"><h2 id="b7-block-7-title" class="block-title">Коммуникации и влияние</h2><p class="sub">Блок 7 · Знания, умения и примеры управленческого поведения</p><div class="meta"><span class="badge badge-blue">3 компетенции</span><span class="badge badge-blue">Подготовлено к общему просмотру</span><span class="badge badge-muted">24 сентября 2026</span></div><p class="intro">Понятно объяснять решения, слышать позиции участников, согласовывать интересы и поддерживать доверие при изменениях и сложных ситуациях.</p></header><nav class="block-toc" aria-label="Оглавление блока 7"><p class="nav-group">Содержание блока</p><a href="#b7-overview">Обзор компетенций</a>
+<a class="nav-main" href="#b7-clear-communication">7.1. Ясность и активное слушание</a>
+<a class="nav-l2" href="#b7-clear-communication-knows">Что знает</a>
+<a class="nav-l2" href="#b7-clear-communication-skills">Что умеет</a>
+<a class="nav-l2" href="#b7-clear-communication-example">Пример поведения</a>
+<a class="nav-main" href="#b7-negotiation">7.2. Переговоры и интересы</a>
+<a class="nav-l2" href="#b7-negotiation-knows">Что знает</a>
+<a class="nav-l2" href="#b7-negotiation-skills">Что умеет</a>
+<a class="nav-l2" href="#b7-negotiation-example">Пример поведения</a>
+<a class="nav-main" href="#b7-change-communication">7.3. Изменения и доверие</a>
+<a class="nav-l2" href="#b7-change-communication-knows">Что знает</a>
+<a class="nav-l2" href="#b7-change-communication-skills">Что умеет</a>
+<a class="nav-l2" href="#b7-change-communication-example">Пример поведения</a>
+<a class="nav-main" href="#b7-references">Методические ориентиры</a>
+<p class="nav-note">Понимание → договорённости → доверие</p></nav><div class="block-content"><section class="overview" id="b7-overview" aria-labelledby="b7-overview-title"><h3 id="b7-overview-title">От взаимопонимания — к совместным действиям</h3><p>Понятная информация → договорённости → участие и доверие.</p><div class="overview-grid"><a class="overview-card" href="#b7-clear-communication"><span class="code">7.1</span><strong>Как достичь взаимопонимания?</strong><span class="question">Аудитория, смысл сообщения и проверка понимания.</span></a><a class="overview-card" href="#b7-negotiation"><span class="code">7.2</span><strong>Как прийти к выполнимой договорённости?</strong><span class="question">Участники, интересы, варианты и обязательства.</span></a><a class="overview-card" href="#b7-change-communication"><span class="code">7.3</span><strong>Как обеспечить участие и доверие?</strong><span class="question">Вовлечение, объяснение изменений и коммуникация рисков.</span></a></div></section>
+<section id="b7-clear-communication" aria-labelledby="b7-clear-communication-title"><div class="section-heading"><span class="number" aria-hidden="true">7.1</span><div><p class="section-label">Компетенция 7.1</p><h3 id="b7-clear-communication-title">Ясная коммуникация и активное слушание</h3></div></div><div class="columns">
+<div class="knowledge" id="b7-clear-communication-knows"><h4>Что знает</h4><ul>
+<li>Как цель общения, контекст и особенности аудитории влияют на содержание, форму и канал передачи информации.</li>
+<li>Приёмы активного слушания, уточнения, структурирования сообщения и проверки понимания.</li>
+<li>Как отделять факты от оценок и предположений, объяснять сложные решения и обозначать границы имеющейся информации.</li>
+</ul></div>
+<div class="skills" id="b7-clear-communication-skills"><h4>Что умеет</h4><ul>
+<li>Формулировать основную мысль, основания решения и ожидаемые действия понятным для аудитории языком.</li>
+<li>Выяснять вопросы и возражения, уточнять смысл услышанного и проверять, одинаково ли участники понимают договорённости.</li>
+<li>Выбирать подходящий канал и время общения, фиксировать значимую информацию и обеспечивать возможность обратной связи.</li>
+</ul></div>
+</div><div class="example" id="b7-clear-communication-example"><h4>Пример корректного управленческого поведения</h4><p>Руководитель подразделения объясняет изменение порядка взаимодействия со смежной службой. Показывает причину и ожидаемый результат, разбирает с сотрудниками типовую ситуацию и просит описать новый порядок своими словами. По вопросам выявляет неоднозначность, уточняет инструкцию и согласует, где сотрудники смогут получить разъяснение.</p></div></section>
+<section id="b7-negotiation" aria-labelledby="b7-negotiation-title"><div class="section-heading"><span class="number" aria-hidden="true">7.2</span><div><p class="section-label">Компетенция 7.2</p><h3 id="b7-negotiation-title">Переговоры и согласование интересов</h3></div></div><div class="columns">
+<div class="knowledge" id="b7-negotiation-knows"><h4>Что знает</h4><ul>
+<li>Как выявлять заинтересованные стороны, их интересы, полномочия, ограничения и зависимость от решения.</li>
+<li>Принципы подготовки переговоров: цели, допустимые условия, альтернативы соглашению и объективные критерии выбора.</li>
+<li>Способы работы с разногласиями и фиксации договорённостей: обязательства, ресурсы, сроки, контроль и порядок пересмотра.</li>
+</ul></div>
+<div class="skills" id="b7-negotiation-skills"><h4>Что умеет</h4><ul>
+<li>Составлять карту участников и интересов, определять, кого необходимо включить в обсуждение и кто уполномочен принять решение.</li>
+<li>Сравнивать варианты по согласованным критериям, работать с возражениями и обосновывать предложения, учитывающие существенные интересы участников и результат для системы.</li>
+<li>Закреплять договорённости в пределах полномочий, проверять их выполнимость и организовывать разрешение разногласий при исполнении.</li>
+</ul></div>
+</div><div class="example" id="b7-negotiation-example"><h4>Пример корректного управленческого поведения</h4><p>Региональный руководитель согласует распределение функций между медицинскими организациями. Выясняет интересы сторон, ограничения мощностей и последствия для пациентов. Вместе с участниками сравнивает варианты, определяет условия передачи функций и необходимые ресурсы. Фиксирует обязательства, сроки и порядок рассмотрения спорных ситуаций.</p></div></section>
+<section id="b7-change-communication" aria-labelledby="b7-change-communication-title"><div class="section-heading"><span class="number" aria-hidden="true">7.3</span><div><p class="section-label">Компетенция 7.3</p><h3 id="b7-change-communication-title">Коммуникация изменений и поддержание доверия</h3></div></div><div class="columns">
+<div class="knowledge" id="b7-change-communication-knows"><h4>Что знает</h4><ul>
+<li>Как планировать коммуникацию изменений: аудитории, вопросы и опасения, сообщения, каналы, сроки и ответственные.</li>
+<li>Принципы публичного объяснения решений и коммуникации рисков: своевременность, согласованность, прозрачность и открытое обозначение неопределённости.</li>
+<li>Способы вовлечения участников, изучения обратной связи и реагирования на ошибочную информацию.</li>
+</ul></div>
+<div class="skills" id="b7-change-communication-skills"><h4>Что умеет</h4><ul>
+<li>Вовлекать затрагиваемые группы в обсуждение изменений, выявлять обоснованные опасения и использовать их для корректировки решений.</li>
+<li>Готовить и выполнять план коммуникации изменений: объяснять цели, последствия и ограничения, согласовывать сообщения, каналы, сроки и ответственных, регулярно обновлять информацию.</li>
+<li>В сложной ситуации сообщать проверенные факты, необходимые действия и время следующего обновления, исправлять ошибки и оценивать понимание сообщений.</li>
+</ul></div>
+</div><div class="example" id="b7-change-communication-example"><h4>Пример корректного управленческого поведения</h4><p>При изменении общего порядка получения помощи руководитель системного уровня организует обсуждение с регионами, профессиональным сообществом и представителями пациентов. По обратной связи уточняет переходный период и способы обращения. Публикует понятные разъяснения, собирает повторяющиеся вопросы и обновляет информацию, отдельно обозначая ещё не решённые вопросы.</p></div></section>
+<section class="reference-section" id="b7-references" aria-labelledby="b7-references-title"><h3 id="b7-references-title">Методические ориентиры</h3><ul><li><a href="https://www.who.int/about/communications/relevant/listening">ВОЗ: слушать аудиторию</a> — 7.1 и 7.3. Вопросы и опасения аудитории как основа понятной коммуникации.</li><li><a href="https://www.who.int/news-room/questions-and-answers/item/emergencies-risk-communication">ВОЗ: коммуникация рисков</a> — 7.3. Доверие, обмен информацией и понимание позиции людей в условиях угроз.</li><li><a href="https://www.who.int/emergencies/risk-communications">ВОЗ: коммуникация рисков и вовлечение сообществ</a> — 7.3. Участие затрагиваемых групп в подготовке и реализации решений.</li></ul></section></div></div></article>
+<article class="block-panel" id="block-8" aria-labelledby="b8-block-8-title"><div class="block-layout"><header class="block-header"><h2 id="b8-block-8-title" class="block-title">Цифровое управление, данные, ИБ</h2><p class="sub">Блок 8 · Знания, умения и примеры управленческого поведения</p><div class="meta"><span class="badge badge-blue">3 компетенции</span><span class="badge badge-blue">Подготовлено к общему просмотру</span><span class="badge badge-muted">24 сентября 2026</span></div><p class="intro">Использовать достоверные данные для решений, выбирать и внедрять полезные цифровые инструменты, обеспечивать ответственную работу с информацией.</p></header><nav class="block-toc" aria-label="Оглавление блока 8"><p class="nav-group">Содержание блока</p><a href="#b8-overview">Обзор компетенций</a>
+<a class="nav-main" href="#b8-data-decisions">8.1. Данные и управленческие решения</a>
+<a class="nav-l2" href="#b8-data-decisions-knows">Что знает</a>
+<a class="nav-l2" href="#b8-data-decisions-skills">Что умеет</a>
+<a class="nav-l2" href="#b8-data-decisions-example">Пример поведения</a>
+<a class="nav-main" href="#b8-digital-solutions">8.2. Цифровые решения и ИИ</a>
+<a class="nav-l2" href="#b8-digital-solutions-knows">Что знает</a>
+<a class="nav-l2" href="#b8-digital-solutions-skills">Что умеет</a>
+<a class="nav-l2" href="#b8-digital-solutions-example">Пример поведения</a>
+<a class="nav-main" href="#b8-information-security">8.3. Информационная безопасность</a>
+<a class="nav-l2" href="#b8-information-security-knows">Что знает</a>
+<a class="nav-l2" href="#b8-information-security-skills">Что умеет</a>
+<a class="nav-l2" href="#b8-information-security-example">Пример поведения</a>
+<a class="nav-main" href="#b8-references">Методические ориентиры</a>
+<p class="nav-note">Данные → цифровые решения → безопасность</p></nav><div class="block-content"><section class="overview" id="b8-overview" aria-labelledby="b8-overview-title"><h3 id="b8-overview-title">От данных — к полезным и безопасным решениям</h3><p>Достоверность и анализ → цифровая польза → защита информации и устойчивость.</p><div class="overview-grid"><a class="overview-card" href="#b8-data-decisions"><span class="code">8.1</span><strong>Насколько обоснован вывод?</strong><span class="question">Управленческий вопрос, качество данных и анализ.</span></a><a class="overview-card" href="#b8-digital-solutions"><span class="code">8.2</span><strong>Какую задачу решает технология?</strong><span class="question">Требования, пилот, оценка пользы и человеческий контроль.</span></a><a class="overview-card" href="#b8-information-security"><span class="code">8.3</span><strong>Как защитить данные и сохранить работу?</strong><span class="question">Доступ, конфиденциальность, инциденты и восстановление.</span></a></div></section>
+<section id="b8-data-decisions" aria-labelledby="b8-data-decisions-title"><div class="section-heading"><span class="number" aria-hidden="true">8.1</span><div><p class="section-label">Компетенция 8.1</p><h3 id="b8-data-decisions-title">Управление на основе данных</h3></div></div><div class="columns">
+<div class="knowledge" id="b8-data-decisions-knows"><h4>Что знает</h4><ul>
+<li>Как связаны управленческий вопрос, показатель, источник данных, способ расчёта и период наблюдения.</li>
+<li>Критерии качества данных: полнота, точность, своевременность, согласованность и сопоставимость; причины пропусков, дублирования и искажений.</li>
+<li>Основные способы анализа и визуализации: динамика, сравнение групп и распределений; различие связи и причинности, влияние состава пациентов и условий работы.</li>
+</ul></div>
+<div class="skills" id="b8-data-decisions-skills"><h4>Что умеет</h4><ul>
+<li>Формулировать вопрос для анализа, выбирать необходимые данные и проверять определения показателей, качество и сопоставимость источников.</li>
+<li>Согласовывать определения показателей и ответственность за качество данных, организовывать исправление ошибок в источнике и проверять, предотвращено ли их повторение.</li>
+<li>Использовать таблицы, графики и аналитические панели для выявления изменений, различий и отклонений, проверять возможные объяснения с участниками работы.</li>
+<li>Формулировать вывод с указанием ограничений, принимать или уточнять решение и определять, какие данные позволят проверить его результат.</li>
+</ul></div>
+</div><div class="example" id="b8-data-decisions-example"><h4>Пример корректного управленческого поведения</h4><p>Региональный руководитель замечает рост времени ожидания в нескольких организациях. До принятия мер проверяет единообразие расчёта и полноту записей. Разделяет данные по видам помощи и территориям, сопоставляет динамику с изменением нагрузки. По результатам уточняет причины и выбирает адресные меры вместо одинакового решения для всех организаций.</p></div></section>
+<section id="b8-digital-solutions" aria-labelledby="b8-digital-solutions-title"><div class="section-heading"><span class="number" aria-hidden="true">8.2</span><div><p class="section-label">Компетенция 8.2</p><h3 id="b8-digital-solutions-title">Выбор и внедрение цифровых решений</h3></div></div><div class="columns">
+<div class="knowledge" id="b8-digital-solutions-knows"><h4>Что знает</h4><ul>
+<li>Как переводить потребность пользователей и целевую модель процесса в требования к цифровому решению, обмену данными и взаимодействию систем.</li>
+<li>Как оценивать полезность решения с учётом стоимости внедрения и эксплуатации, нагрузки на пользователей, доступности и зависимости от поставщика.</li>
+<li>Возможности и ограничения автоматизации и искусственного интеллекта: ошибки, смещения, применимость к конкретной задаче, необходимость проверки и ответственности человека.</li>
+</ul></div>
+<div class="skills" id="b8-digital-solutions-skills"><h4>Что умеет</h4><ul>
+<li>Обосновывать задачу цифровизации, описывать требования вместе с пользователями и специалистами, сопоставлять варианты и условия их эксплуатации.</li>
+<li>Организовывать пилот, обучение и оценку результата по заранее определённым критериям, проверять обмен данными и резервный порядок работы; масштабировать решение при подтверждённой пользе и готовности участников.</li>
+<li>Для решений с ИИ определять допустимые задачи и данные, порядок проверки результатов человеком и условия прекращения использования; проверять применимость результатов в реальных условиях.</li>
+</ul></div>
+</div><div class="example" id="b8-digital-solutions-example"><h4>Пример корректного управленческого поведения</h4><p>Руководитель медицинской организации рассматривает систему с ИИ для подготовки управленческих сводок. Определяет допустимые данные и круг задач, организует пилот с проверкой каждой сводки ответственным специалистом. Сравнивает точность, время подготовки и трудозатраты на исправления. Решает вопрос о внедрении по результатам проверки и закрепляет ответственность за итоговые выводы.</p></div></section>
+<section id="b8-information-security" aria-labelledby="b8-information-security-title"><div class="section-heading"><span class="number" aria-hidden="true">8.3</span><div><p class="section-label">Компетенция 8.3</p><h3 id="b8-information-security-title">Управление информационной безопасностью и ответственное использование данных</h3></div></div><div class="columns">
+<div class="knowledge" id="b8-information-security-knows"><h4>Что знает</h4><ul>
+<li>Принципы конфиденциальности, целостности и доступности информации; требования к обработке медицинской информации и персональных данных в своей области ответственности.</li>
+<li>Основные риски: избыточный доступ, утечка, ошибочная передача, вредоносное воздействие, отказ систем и риски внешних поставщиков.</li>
+<li>Распределение ответственности за доступ, хранение и передачу данных, резервное копирование, реагирование на инциденты и восстановление работы.</li>
+</ul></div>
+<div class="skills" id="b8-information-security-skills"><h4>Что умеет</h4><ul>
+<li>Совместно с профильными специалистами определять необходимые данные, допустимые способы их использования и доступ по рабочим задачам; контролировать актуальность прав и соблюдение правил.</li>
+<li>Учитывать безопасность при выборе цифровых решений и поставщиков, организовывать обучение сотрудников и проверку готовности к инцидентам.</li>
+<li>При обнаружении инцидента запускать установленный порядок реагирования, обеспечивать необходимые действия ответственных специалистов и сохранение помощи, контролировать восстановление и устранение причин.</li>
+</ul></div>
+</div><div class="example" id="b8-information-security-example"><h4>Пример корректного управленческого поведения</h4><p>Руководитель сети организаций готовит обмен данными между участниками. С профильными специалистами определяет необходимый состав информации, основания и цели передачи, роли доступа и ответственность сторон. До запуска проверяет действия при недоступности системы и ошибочной передаче данных. По результатам проверки уточняет порядок реагирования и восстановления.</p></div></section>
+<section class="reference-section" id="b8-references" aria-labelledby="b8-references-title"><h3 id="b8-references-title">Методические ориентиры</h3><ul><li><a href="https://www.who.int/data/data-collection-tools/health-service-data/data-quality-assurance-dqa">ВОЗ: обеспечение качества данных</a> — 8.1. Проверка и улучшение качества данных регулярной отчётности перед анализом.</li><li><a href="https://www.who.int/publications/i/item/9789240056572">ВОЗ: руководство по внедрению цифровых решений</a> — 8.2. Связь задач программы, процессов, потребностей пользователей и функциональных требований.</li><li><a href="https://www.who.int/publications/i/item/9789240029200">ВОЗ: этика и управление ИИ в здравоохранении</a> — 8.2. Ответственность, права людей и управление рисками применения ИИ.</li><li><a href="https://www.nist.gov/cyberframework/faqs">NIST: Cybersecurity Framework 2.0</a> — 8.3. Управленческая ответственность, защита, выявление инцидентов, реагирование и восстановление. Методический ориентир; применимые требования определяются для конкретного контекста.</li></ul></section></div></div></article></main><footer class="model-footer"><span>Модель компетенций · 8 блоков · 24 компетенции · Редакция от 24 сентября 2026</span><a href="#top">К началу ↑</a></footer></div><script>
+const panels = Array.from(document.querySelectorAll('.block-panel'));
+const tabs = Array.from(document.querySelectorAll('.block-tab'));
+let activePanel = panels[0];
+let queued = false;
+const blockTabs = document.querySelector('.block-tabs');
+function showActiveTab() {
+ const link = tabs.find(item => item.hash === '#' + activePanel.id);
+ if (link && blockTabs.scrollWidth > blockTabs.clientWidth) {
+  blockTabs.scrollLeft = Math.max(0, link.offsetLeft - (blockTabs.clientWidth - link.offsetWidth) / 2);
+ }
+}
+function updateTabsHeight() {
+ document.documentElement.style.setProperty('--block-tabs-height', blockTabs.getBoundingClientRect().height + 'px');
+ showActiveTab();
+}
+updateTabsHeight();
+if ('ResizeObserver' in window) new ResizeObserver(updateTabsHeight).observe(blockTabs);
+window.addEventListener('resize', updateTabsHeight);
+function updateNavigation() {
+ queued = false;
+ const links = Array.from(activePanel.querySelectorAll('.block-toc a'));
+ let index = 0;
+ links.forEach((link, i) => {
+  const target = document.getElementById(link.hash.slice(1));
+  if (target && target.getBoundingClientRect().top <= blockTabs.getBoundingClientRect().bottom + 50) index = i;
+ });
+ if (window.matchMedia('(max-width: 780px)').matches) {
+  while (index > 0 && links[index].classList.contains('nav-l2')) index--;
+ }
+ links.forEach((link, i) => {
+  if (i === index) link.setAttribute('aria-current', 'location');
+  else link.removeAttribute('aria-current');
+ });
+}
+function activate(panel) {
+ activePanel = panel;
+ panels.forEach(item => { item.hidden = item !== panel; });
+ tabs.forEach(link => {
+  if (link.hash === '#' + panel.id) link.setAttribute('aria-current', 'page');
+ else link.removeAttribute('aria-current');
+ });
+ showActiveTab();
+ updateNavigation();
+}
+function route(scroll) {
+ let target;
+ try { target = document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch (_) {}
+ const panel = target && target.closest('.block-panel');
+ if (panel) activate(panel);
+ else if (!location.hash) activate(panels[0]);
+ if (scroll && target) requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+}
+tabs.forEach(link => link.addEventListener('click', event => {
+ if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+ event.preventDefault();
+ if (location.hash !== link.hash) history.pushState(null, '', link.hash);
+ route(true);
+}));
+window.addEventListener('hashchange', () => route(true));
+window.addEventListener('popstate', () => route(true));
+window.addEventListener('scroll', () => {
+ if (!queued) { queued = true; requestAnimationFrame(updateNavigation); }
+}, { passive: true });
+window.addEventListener('resize', updateNavigation);
+activate(panels[0]);
+route(Boolean(location.hash));
+</script></body></html>

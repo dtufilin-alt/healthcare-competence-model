@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+expert-review/.venv/
+expert-review/.data/
+expert-review/test-artifacts/
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.log
+.DS_Store

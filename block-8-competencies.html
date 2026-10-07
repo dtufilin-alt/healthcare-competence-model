@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Использовать достоверные данные для решений, выбирать и внедрять полезные цифровые инструменты, обеспечивать ответственную работу с информацией.">
+<meta name="theme-color" content="#f5f6f8">
+<title>Цифровое управление, данные, ИБ · Блок 8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --text: #1a1d23;
+    --muted: #5c6570;
+    --border: #e2e5ea;
+    --ok: #0d7a4f;
+    --ok-bg: #e8f5ef;
+    --warn: #9a6700;
+    --warn-bg: #fff8e6;
+    --danger: #b42318;
+    --danger-bg: #fef3f2;
+    --accent: #1f4e79;
+    --nav-w: 260px;
+    --max: 1520px;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 1.48;
+    color: var(--text);
+    background: var(--bg);
+  }
+  .page {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 18px 20px 56px;
+    display: grid;
+    grid-template-columns: var(--nav-w) 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  header {
+    grid-column: 1 / -1;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+  }
+  header h1 {
+    font-size: 16.5px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 3px;
+  }
+  header .sub { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+  header .meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 7px; }
+  .badge {
+    display: inline-flex; align-items: center;
+    padding: 3px 8px; border-radius: 6px;
+    font-size: 10.5px; font-weight: 600;
+  }
+  .badge-ok { background: var(--ok-bg); color: var(--ok); }
+  .badge-warn { background: var(--warn-bg); color: var(--warn); }
+  .badge-danger { background: var(--danger-bg); color: var(--danger); }
+  .badge-muted { background: #eef0f3; color: var(--muted); }
+
+  nav {
+    position: sticky; top: 10px;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 10px 8px;
+    box-shadow: var(--shadow);
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+  }
+  nav a {
+    display: block;
+    padding: 4px 8px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 10.5px;
+    font-weight: 500;
+    border-radius: 5px;
+    margin-bottom: 1px;
+  }
+  nav a:hover { color: var(--text); background: #f0f2f5; }
+  nav a.active { color: var(--text); font-weight: 600; }
+  nav .nav-group {
+    font-size: 9.5px; font-weight: 600; color: #9aa3ad;
+    text-transform: uppercase; letter-spacing: .04em;
+    padding: 8px 8px 3px; margin-top: 4px;
+  }
+
+  main { min-width: 0; }
+  section {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 15px 17px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  section h2 {
+    font-size: 13px; font-weight: 700;
+    margin-bottom: 9px; letter-spacing: -0.01em;
+  }
+  section h3 {
+    font-size: 11.5px; font-weight: 600;
+    margin: 12px 0 5px; color: var(--text);
+  }
+  section h4 {
+    font-size: 11px; font-weight: 600;
+    margin: 8px 0 4px; color: var(--muted);
+  }
+  p, li { font-size: 11.5px; color: var(--text); }
+  ul, ol { padding-left: 16px; margin: 5px 0; }
+  li { margin-bottom: 2.5px; }
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 11px; margin: 7px 0;
+  }
+  th, td {
+    text-align: left; padding: 5px 7px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    background: #f0f2f5; font-weight: 600;
+    font-size: 10.5px; color: var(--muted);
+  }
+  code, .mono {
+    font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 10.5px;
+    background: #f0f2f5;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  .callout {
+    border-radius: 8px; padding: 9px 11px;
+    margin: 8px 0; font-size: 11.5px;
+  }
+  .callout-ok { background: var(--ok-bg); color: #0a5c3a; }
+  .callout-warn { background: var(--warn-bg); color: #7a5200; }
+  .callout-danger { background: var(--danger-bg); color: #912018; }
+  .callout strong { font-weight: 600; }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px; margin: 8px 0;
+  }
+  .cards-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card {
+    background: #f8f9fb; border-radius: 8px; padding: 11px;
+  }
+  .card h4 { font-size: 11.5px; font-weight: 600; margin-bottom: 5px; color: var(--text); }
+  .card p, .card li { font-size: 11px; color: var(--muted); }
+  .modal-trigger {
+    background: none; border: none;
+    color: var(--accent); text-decoration: underline;
+    cursor: pointer; font-family: inherit;
+    font-size: 11.5px; font-weight: 500; padding: 0;
+  }
+  .modal-trigger:hover { opacity: 0.8; }
+  .flow {
+    display: flex; flex-wrap: wrap; gap: 5px;
+    align-items: center; margin: 8px 0; font-size: 11px;
+  }
+  .flow-step {
+    background: #eef1f5; padding: 4px 9px;
+    border-radius: 6px; font-weight: 500;
+  }
+  .flow-arrow { color: var(--muted); font-size: 11px; }
+  .two-col {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin: 8px 0;
+  }
+  footer {
+    grid-column: 1 / -1;
+    text-align: center; padding: 12px;
+    font-size: 10.5px; color: var(--muted);
+  }
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.42); z-index: 100;
+    align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border-radius: 12px;
+    max-width: 760px; width: 100%; max-height: 88vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 40px rgba(0,0,0,.15);
+  }
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .modal-header h3 { font-size: 12.5px; font-weight: 600; }
+  .modal-close {
+    background: none; border: none; font-size: 20px;
+    cursor: pointer; color: var(--muted); line-height: 1; padding: 0 4px;
+  }
+  .modal-body {
+    padding: 14px 16px; overflow-y: auto; font-size: 11.5px;
+  }
+  .modal-body pre {
+    white-space: pre-wrap;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 10.5px; background: #f6f7f9;
+    padding: 11px; border-radius: 6px; line-height: 1.4;
+  }
+  .modal-body table { font-size: 10.5px; }
+  .modal-body h4 { font-size: 11.5px; font-weight: 600; margin: 10px 0 5px; }
+  @media (max-width: 780px) {
+    .page { grid-template-columns: 1fr; }
+    nav { position: static; max-height: none; }
+    .cards, .cards-3, .two-col { grid-template-columns: 1fr; }
+  }
+
+/* ===== дополнения: элементы, которых не было в исходном отчёте ===== */
+
+/* --- вертикальный ритм: в исходном CSS `* { margin: 0 }` съедал абзацы --- */
+section p { margin: 0 0 9px; }
+section p:last-child { margin-bottom: 0; }
+section li { margin-bottom: 4px; }
+section ul, section ol { margin: 7px 0 11px; padding-left: 18px; }
+section li > ul, section li > ol { margin: 3px 0 4px; }
+section > *:first-child { margin-top: 0; }
+section > *:last-child { margin-bottom: 0; }
+
+section h2 { margin: 0 0 11px; }
+section h3 { margin: 18px 0 7px; }
+section h4 { margin: 14px 0 6px; }
+section h3:first-child, section h4:first-child { margin-top: 0; }
+
+/* текстовая колонка не растягивается на всю ширину — читаемая длина строки */
+section p, section ul, section ol, section blockquote { max-width: 96ch; }
+
+/* таблицы дышат */
+section table { margin: 10px 0 12px; }
+th, td { padding: 6px 9px; }
+
+
+/* контент из markdown внутри section */
+section h2:not(:first-child) { margin-top: 16px; }
+section > h3:first-child, section > h4:first-child { margin-top: 0; }
+section p + h3, section table + h3, section ul + h3 { margin-top: 14px; }
+section hr { border: 0; border-top: 1px solid var(--border); margin: 14px 0; }
+section blockquote {
+  margin: 8px 0; padding: 7px 11px;
+  background: #f8f9fb; border-left: 3px solid var(--accent);
+  font-size: 11.5px; color: var(--muted);
+}
+section pre {
+  background: #f6f7f9; border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px 12px; overflow-x: auto; margin: 8px 0;
+  font-family: 'SF Mono','Consolas','Menlo',monospace;
+  font-size: 10.5px; line-height: 1.45; color: var(--text);
+}
+section pre code { background: none; padding: 0; font-size: 10.5px; }
+strong { font-weight: 600; }
+.tablewrap { overflow-x: auto; margin: 10px 0 12px; }
+.tablewrap table { margin: 0; }
+td code { font-size: 10px; }
+
+/* перекрёстные ссылки */
+a { color: var(--accent); }
+a.xref {
+  text-decoration: none; border-bottom: 1px solid #cfdae6;
+  white-space: nowrap; font-weight: 500;
+}
+a.xref:hover { background: #eaf0f6; border-bottom-color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* статусные пилюли в таблицах — те же токены, что у .badge */
+.pill {
+  display: inline-block; padding: 2px 7px; border-radius: 5px;
+  font-size: 10px; font-weight: 600; white-space: nowrap;
+}
+.pill.ok { background: var(--ok-bg); color: var(--ok); }
+.pill.defer { background: var(--warn-bg); color: var(--warn); }
+.pill.reject { background: var(--danger-bg); color: var(--danger); }
+.pill.open { background: #eaf0f6; color: var(--accent); }
+
+/* панель словаря терминов */
+.gl-btn {
+  position: fixed; right: 14px; bottom: 14px; z-index: 40;
+  font-family: inherit; font-size: 11px; font-weight: 600;
+  background: var(--text); color: #fff; border: 0;
+  padding: 8px 13px; border-radius: 7px; cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,.18);
+}
+.gl-btn:hover { background: var(--accent); }
+.gl-panel {
+  position: fixed; inset: 0 0 0 auto; width: min(560px, 94vw);
+  background: var(--surface); z-index: 110; transform: translateX(100%);
+  transition: transform .2s ease; overflow-y: auto;
+  padding: 14px 18px 48px; box-shadow: -8px 0 30px rgba(0,0,0,.14);
+}
+.gl-panel.open { transform: translateX(0); }
+.gl-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 10px;
+}
+.gl-head h3 { font-size: 12.5px; font-weight: 600; }
+.gl-close {
+  background: none; border: 0; font-size: 20px; cursor: pointer;
+  color: var(--muted); line-height: 1; padding: 0 4px;
+}
+.gl-panel h3 { font-size: 11.5px; font-weight: 600; margin: 14px 0 5px; }
+.gl-panel table { font-size: 10.5px; }
+.gl-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 105;
+  opacity: 0; pointer-events: none; transition: opacity .18s;
+}
+.gl-backdrop.on { opacity: 1; pointer-events: auto; }
+
+/* навигация: группы и вложенность */
+nav a.nav-l2 { padding-left: 18px; font-size: 10px; }
+.navtoggle { display: none; }
+
+@media (max-width: 780px) {
+  .navtoggle {
+    display: block; position: fixed; left: 14px; bottom: 14px; z-index: 40;
+    font-family: inherit; font-size: 11px; font-weight: 600;
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--border); padding: 8px 12px;
+    border-radius: 7px; cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+@media print {
+  nav, .gl-btn, .gl-panel, .gl-backdrop, .navtoggle { display: none !important; }
+  .page { display: block; max-width: none; padding: 0; }
+  section { box-shadow: none; border: 1px solid var(--border); page-break-inside: auto; }
+  table { page-break-inside: avoid; }
+  pre { white-space: pre-wrap; }
+}
+
+/* Оформление блока компетенций на основе эталона Дениса. */
+:root{--nav-w:244px;--max:1400px;--blue-bg:#edf3f8}
+html{scroll-padding-top:22px}
+body{line-height:1.6}
+.page{padding:24px 24px 32px}
+header{border-top:3px solid var(--accent);padding:22px 25px 20px}
+.hero-top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:11px}
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:.065em;text-transform:uppercase;color:var(--muted)}
+header h1{font-size:clamp(19px,2.1vw,25px);line-height:1.3;letter-spacing:-.035em;margin-bottom:6px}
+header .sub{font-size:12px}
+header .meta{margin-top:14px}
+.badge-blue{background:var(--blue-bg);color:var(--accent)}
+.intro{margin-top:14px;padding-top:13px;border-top:1px solid var(--border);max-width:108ch;line-height:1.7}
+.print{font:600 10px 'Montserrat',system-ui,sans-serif;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:white;color:var(--accent);cursor:pointer;white-space:nowrap}
+.print:hover{background:var(--blue-bg)}
+nav{padding:14px 10px}
+nav a{padding:6px 9px;line-height:1.45}
+nav .nav-main{margin-top:10px;font-weight:600;color:var(--text)}
+nav a[aria-current="location"]{background:var(--blue-bg);color:var(--accent);font-weight:600}
+nav .nav-l2{padding-left:23px}
+nav .nav-group{margin-top:0;padding-top:0;color:var(--muted);letter-spacing:.08em}
+.nav-note{border-top:1px solid var(--border);margin:13px 9px 0;padding-top:12px;font-size:10px;color:var(--muted)}
+section{padding:20px 22px;margin-bottom:14px}
+section:last-child{margin-bottom:0}
+.overview>p{color:var(--muted);font-size:11px}
+.overview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:13px}
+.overview-card{border:1px solid var(--border);background:#f8f9fb;border-radius:8px;padding:12px;text-decoration:none;color:var(--text)}
+.overview-card:hover{background:var(--blue-bg);border-color:#c8d7e3}
+.overview-card .code{display:block;color:var(--accent);font-size:10px;font-weight:700;margin-bottom:5px}
+.overview-card strong{display:block;font-size:11.5px;margin-bottom:4px}
+.overview-card .question{display:block;font-size:10.5px;color:var(--muted)}
+.section-heading{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+.number{flex:0 0 39px;height:39px;display:grid;place-items:center;background:var(--blue-bg);color:var(--accent);border-radius:8px;font-size:12px;font-weight:700}
+.section-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+section .section-label{margin:0 0 3px}
+.section-heading h2{font-size:15px;line-height:1.4;margin:0;letter-spacing:-.015em}
+.columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.knowledge,.skills{background:#f8f9fb;border:1px solid #edf0f4;border-radius:8px;padding:14px 15px}
+.columns h3{font-size:11.5px;margin:0 0 8px;font-weight:700}
+.skills h3{color:var(--accent)}
+.columns ul{margin:0;padding-left:16px}
+.columns li{padding-left:2px;margin-bottom:7px;line-height:1.6}
+.columns li:last-child{margin-bottom:0}
+li::marker{color:#8a9dac}
+.example{margin-top:12px;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;background:var(--blue-bg);padding:13px 15px}
+.example h3{color:var(--accent);font-size:10.5px;margin:0 0 6px;font-weight:700}
+.example p{font-size:11.5px;line-height:1.7;max-width:108ch}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:2px;font-size:10px;text-align:left}
+footer a{text-decoration:none}
+.skip{position:absolute;top:-100px;left:20px;background:white;padding:10px 14px;z-index:10}
+.skip:focus{top:10px}
+@media(max-width:1000px){.page{grid-template-columns:210px minmax(0,1fr);gap:14px;padding:16px}.columns,.overview-grid{grid-template-columns:1fr}section{padding:18px}}
+@media(max-width:780px){.page{grid-template-columns:1fr;padding:12px;gap:12px}header{padding:17px}.hero-top{align-items:flex-start}.eyebrow{max-width:24ch}nav{position:static;max-height:none}nav .nav-l2,.nav-note{display:none}nav .nav-main{margin-top:2px}.overview-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.section-heading h2{font-size:14px}footer{padding:6px}}
+@media(max-width:480px){.overview-grid{grid-template-columns:1fr}.section-heading{gap:9px}section{padding:16px}.number{flex-basis:33px;height:33px;font-size:11px}}
+@page{size:A4;margin:13mm}
+@media print{body{background:white}.page{display:block;max-width:none;padding:0}.print,.skip,footer a{display:none!important}header{box-shadow:none;border:1px solid var(--border);border-top:3px solid var(--accent);padding:14px 17px;margin-bottom:12px}header h1{font-size:18px}.hero-top{margin-bottom:5px}section{padding:15px 17px;break-inside:avoid;page-break-inside:avoid;margin-bottom:12px}.columns{grid-template-columns:repeat(2,minmax(0,1fr))}.overview-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.columns li,.example p{font-size:10.5px;line-height:1.5}h2,h3{break-after:avoid}footer{margin-top:14px}*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+.reference-section li{font-size:10px;color:var(--muted);line-height:1.55}
+.reference-section a{font-weight:600;text-underline-offset:2px}
+.model-scope{margin-top:7px;font-size:10px;color:var(--muted);max-width:110ch}
+.model-status{margin-top:4px;font-size:9.5px;color:var(--muted)}
+.section-heading>div{min-width:0}
+@media(max-width:480px){.hero-top{flex-wrap:wrap}.block-header .block-title{overflow-wrap:anywhere}}
+@media print{
+ .block-content .columns li,.block-content .example p{line-height:1.4}
+ .model-footer{position:fixed;left:0;right:0;bottom:-9mm;margin:0;font-size:8px}
+ .reference-section{break-inside:avoid;page-break-inside:avoid}
+ .block-content .reference-section{padding:6px 10px}
+ .block-content .reference-section h3{font-size:10px;margin-bottom:4px}
+ .block-content .reference-section ul{margin:0;padding-left:12px}
+ .block-content .reference-section li{font-size:8.5px;line-height:1.3;margin-bottom:2px}
+ .reference-section li{break-inside:avoid}
+}
+</style></head><body>
+<a class="skip" href="#content">Перейти к содержанию</a>
+<div class="page" id="top"><header><div class="hero-top"><p class="eyebrow">Модель компетенций управленца в здравоохранении</p><button class="print" type="button" onclick="window.print()">Печать / PDF</button></div><h1>Цифровое управление, данные, ИБ</h1><p class="sub">Блок 8 · Знания, умения и примеры управленческого поведения</p><div class="meta"><span class="badge badge-blue">3 компетенции</span><span class="badge badge-blue">Подготовлено к общему просмотру</span><span class="badge badge-muted">24 сентября 2026</span></div><p class="intro">Использовать достоверные данные для решений, выбирать и внедрять полезные цифровые инструменты, обеспечивать ответственную работу с информацией.</p></header><nav aria-label="Оглавление блока 8"><p class="nav-group">Содержание блока</p><a href="#overview">Обзор компетенций</a>
+<a class="nav-main" href="#data-decisions">8.1. Данные и управленческие решения</a>
+<a class="nav-l2" href="#data-decisions-knows">Что знает</a>
+<a class="nav-l2" href="#data-decisions-skills">Что умеет</a>
+<a class="nav-l2" href="#data-decisions-example">Пример поведения</a>
+<a class="nav-main" href="#digital-solutions">8.2. Цифровые решения и ИИ</a>
+<a class="nav-l2" href="#digital-solutions-knows">Что знает</a>
+<a class="nav-l2" href="#digital-solutions-skills">Что умеет</a>
+<a class="nav-l2" href="#digital-solutions-example">Пример поведения</a>
+<a class="nav-main" href="#information-security">8.3. Информационная безопасность</a>
+<a class="nav-l2" href="#information-security-knows">Что знает</a>
+<a class="nav-l2" href="#information-security-skills">Что умеет</a>
+<a class="nav-l2" href="#information-security-example">Пример поведения</a>
+<a class="nav-main" href="#references">Методические ориентиры</a>
+<p class="nav-note">Данные → цифровые решения → безопасность</p></nav><main id="content"><section class="overview" id="overview" aria-labelledby="overview-title"><h2 id="overview-title">От данных — к полезным и безопасным решениям</h2><p>Достоверность и анализ → цифровая польза → защита информации и устойчивость.</p><div class="overview-grid"><a class="overview-card" href="#data-decisions"><span class="code">8.1</span><strong>Насколько обоснован вывод?</strong><span class="question">Управленческий вопрос, качество данных и анализ.</span></a><a class="overview-card" href="#digital-solutions"><span class="code">8.2</span><strong>Какую задачу решает технология?</strong><span class="question">Требования, пилот, оценка пользы и человеческий контроль.</span></a><a class="overview-card" href="#information-security"><span class="code">8.3</span><strong>Как защитить данные и сохранить работу?</strong><span class="question">Доступ, конфиденциальность, инциденты и восстановление.</span></a></div></section>
+<section id="data-decisions" aria-labelledby="data-decisions-title"><div class="section-heading"><span class="number" aria-hidden="true">8.1</span><div><p class="section-label">Компетенция 8.1</p><h2 id="data-decisions-title">Управление на основе данных</h2></div></div><div class="columns">
+<div class="knowledge" id="data-decisions-knows"><h3>Что знает</h3><ul>
+<li>Как связаны управленческий вопрос, показатель, источник данных, способ расчёта и период наблюдения.</li>
+<li>Критерии качества данных: полнота, точность, своевременность, согласованность и сопоставимость; причины пропусков, дублирования и искажений.</li>
+<li>Основные способы анализа и визуализации: динамика, сравнение групп и распределений; различие связи и причинности, влияние состава пациентов и условий работы.</li>
+</ul></div>
+<div class="skills" id="data-decisions-skills"><h3>Что умеет</h3><ul>
+<li>Формулировать вопрос для анализа, выбирать необходимые данные и проверять определения показателей, качество и сопоставимость источников.</li>
+<li>Согласовывать определения показателей и ответственность за качество данных, организовывать исправление ошибок в источнике и проверять, предотвращено ли их повторение.</li>
+<li>Использовать таблицы, графики и аналитические панели для выявления изменений, различий и отклонений, проверять возможные объяснения с участниками работы.</li>
+<li>Формулировать вывод с указанием ограничений, принимать или уточнять решение и определять, какие данные позволят проверить его результат.</li>
+</ul></div>
+</div><div class="example" id="data-decisions-example"><h3>Пример корректного управленческого поведения</h3><p>Региональный руководитель замечает рост времени ожидания в нескольких организациях. До принятия мер проверяет единообразие расчёта и полноту записей. Разделяет данные по видам помощи и территориям, сопоставляет динамику с изменением нагрузки. По результатам уточняет причины и выбирает адресные меры вместо одинакового решения для всех организаций.</p></div></section>
+<section id="digital-solutions" aria-labelledby="digital-solutions-title"><div class="section-heading"><span class="number" aria-hidden="true">8.2</span><div><p class="section-label">Компетенция 8.2</p><h2 id="digital-solutions-title">Выбор и внедрение цифровых решений</h2></div></div><div class="columns">
+<div class="knowledge" id="digital-solutions-knows"><h3>Что знает</h3><ul>
+<li>Как переводить потребность пользователей и целевую модель процесса в требования к цифровому решению, обмену данными и взаимодействию систем.</li>
+<li>Как оценивать полезность решения с учётом стоимости внедрения и эксплуатации, нагрузки на пользователей, доступности и зависимости от поставщика.</li>
+<li>Возможности и ограничения автоматизации и искусственного интеллекта: ошибки, смещения, применимость к конкретной задаче, необходимость проверки и ответственности человека.</li>
+</ul></div>
+<div class="skills" id="digital-solutions-skills"><h3>Что умеет</h3><ul>
+<li>Обосновывать задачу цифровизации, описывать требования вместе с пользователями и специалистами, сопоставлять варианты и условия их эксплуатации.</li>
+<li>Организовывать пилот, обучение и оценку результата по заранее определённым критериям, проверять обмен данными и резервный порядок работы; масштабировать решение при подтверждённой пользе и готовности участников.</li>
+<li>Для решений с ИИ определять допустимые задачи и данные, порядок проверки результатов человеком и условия прекращения использования; проверять применимость результатов в реальных условиях.</li>
+</ul></div>
+</div><div class="example" id="digital-solutions-example"><h3>Пример корректного управленческого поведения</h3><p>Руководитель медицинской организации рассматривает систему с ИИ для подготовки управленческих сводок. Определяет допустимые данные и круг задач, организует пилот с проверкой каждой сводки ответственным специалистом. Сравнивает точность, время подготовки и трудозатраты на исправления. Решает вопрос о внедрении по результатам проверки и закрепляет ответственность за итоговые выводы.</p></div></section>
+<section id="information-security" aria-labelledby="information-security-title"><div class="section-heading"><span class="number" aria-hidden="true">8.3</span><div><p class="section-label">Компетенция 8.3</p><h2 id="information-security-title">Управление информационной безопасностью и ответственное использование данных</h2></div></div><div class="columns">
+<div class="knowledge" id="information-security-knows"><h3>Что знает</h3><ul>
+<li>Принципы конфиденциальности, целостности и доступности информации; требования к обработке медицинской информации и персональных данных в своей области ответственности.</li>
+<li>Основные риски: избыточный доступ, утечка, ошибочная передача, вредоносное воздействие, отказ систем и риски внешних поставщиков.</li>
+<li>Распределение ответственности за доступ, хранение и передачу данных, резервное копирование, реагирование на инциденты и восстановление работы.</li>
+</ul></div>
+<div class="skills" id="information-security-skills"><h3>Что умеет</h3><ul>
+<li>Совместно с профильными специалистами определять необходимые данные, допустимые способы их использования и доступ по рабочим задачам; контролировать актуальность прав и соблюдение правил.</li>
+<li>Учитывать безопасность при выборе цифровых решений и поставщиков, организовывать обучение сотрудников и проверку готовности к инцидентам.</li>
+<li>При обнаружении инцидента запускать установленный порядок реагирования, обеспечивать необходимые действия ответственных специалистов и сохранение помощи, контролировать восстановление и устранение причин.</li>
+</ul></div>
+</div><div class="example" id="information-security-example"><h3>Пример корректного управленческого поведения</h3><p>Руководитель сети организаций готовит обмен данными между участниками. С профильными специалистами определяет необходимый состав информации, основания и цели передачи, роли доступа и ответственность сторон. До запуска проверяет действия при недоступности системы и ошибочной передаче данных. По результатам проверки уточняет порядок реагирования и восстановления.</p></div></section>
+<section class="reference-section" id="references" aria-labelledby="references-title"><h2 id="references-title">Методические ориентиры</h2><ul><li><a href="https://www.who.int/data/data-collection-tools/health-service-data/data-quality-assurance-dqa">ВОЗ: обеспечение качества данных</a> — 8.1. Проверка и улучшение качества данных регулярной отчётности перед анализом.</li><li><a href="https://www.who.int/publications/i/item/9789240056572">ВОЗ: руководство по внедрению цифровых решений</a> — 8.2. Связь задач программы, процессов, потребностей пользователей и функциональных требований.</li><li><a href="https://www.who.int/publications/i/item/9789240029200">ВОЗ: этика и управление ИИ в здравоохранении</a> — 8.2. Ответственность, права людей и управление рисками применения ИИ.</li><li><a href="https://www.nist.gov/cyberframework/faqs">NIST: Cybersecurity Framework 2.0</a> — 8.3. Управленческая ответственность, защита, выявление инцидентов, реагирование и восстановление. Методический ориентир; применимые требования определяются для конкретного контекста.</li></ul></section></main><footer><span>Модель компетенций · Блок 8 · 24 сентября 2026</span><a href="competency-model.html#block-8">Общая модель</a><a href="block-7-competencies.html">← Блок 7</a><a href="#top">К началу ↑</a></footer></div><script>
+const links = Array.from(document.querySelectorAll('nav a'));
+const targets = links.map(link => document.getElementById(link.hash.slice(1)));
+let queued = false;
+function updateNavigation() {
+ queued = false;
+ let index = 0;
+ targets.forEach((target, i) => { if (target.getBoundingClientRect().top <= 110) index = i; });
+ if (window.matchMedia('(max-width: 780px)').matches) {
+  while (index > 0 && links[index].classList.contains('nav-l2')) index--;
+ }
+ links.forEach((link, i) => {
+  if (i === index) link.setAttribute('aria-current', 'location');
+  else link.removeAttribute('aria-current');
+ });
+}
+window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(updateNavigation); } }, { passive: true });
+window.addEventListener('resize', updateNavigation);
+updateNavigation();
+</script></body></html>

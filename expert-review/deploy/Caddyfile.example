@@ -1,0 +1,6 @@
+# Replace review.example.org with the approved domain after DNS is ready.
+# Add as its own file to the existing Caddy import directory.
+review.example.org {
+    encode gzip
+    reverse_proxy 127.0.0.1:8768
+}

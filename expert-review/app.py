@@ -28,7 +28,8 @@ def digest(x):
 def create_app(config=None):
     app = Flask(__name__, static_folder='static', static_url_path='/static')
     app.config.update(DATA_DIR=str(ROOT / '.data'), MODEL=str(ROOT.parent / 'model-content.json'),
-                      MAX_CONTENT_LENGTH=1024 * 1024, TRUSTED_HOSTS=['localhost', '127.0.0.1', '[::1]'])
+                      MAX_CONTENT_LENGTH=1024 * 1024, ENABLE_DEMO=True,
+                      TRUSTED_HOSTS=['localhost', '127.0.0.1', '[::1]'])
     if config:
         app.config.update(config)
     data_dir = Path(app.config['DATA_DIR'])
@@ -275,6 +276,15 @@ def create_app(config=None):
     def index():
         return send_from_directory(app.static_folder, 'index.html')
 
+    @app.get('/api/public-config')
+    def public_config():
+        return jsonify(demo_enabled=bool(app.config['ENABLE_DEMO']))
+
+    @app.get('/healthz')
+    def health():
+        one('SELECT 1 FROM studies LIMIT 1')
+        return jsonify(status='ok')
+
     @app.post('/api/admin/login')
     def admin_login():
         throttle()
@@ -296,6 +306,8 @@ def create_app(config=None):
 
     @app.post('/api/demo')
     def demo():
+        if not app.config['ENABLE_DEMO']:
+            fail('Демоверсия отключена. Используйте персональное приглашение.', 404)
         throttle()
         _, model = current(real_study()['id'])
         sid = insert('INSERT INTO studies(demo) VALUES(1)')

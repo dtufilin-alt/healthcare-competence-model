@@ -4,10 +4,16 @@ import tempfile
 import unittest
 from pathlib import Path
 import sys
+import os
+import sqlite3
+import tarfile
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from app import create_app
 from methodology import metric, items, solve_bwm, aggregate_weights
+from wsgi import server_app
+from deploy.backup import backup
 
 
 class ReviewTests(unittest.TestCase):
@@ -201,6 +207,42 @@ class CalculationTests(unittest.TestCase):
         value['comparisons'].pop('2:8')
         with self.assertRaises(ValueError):
             solve_bwm(blocks, value)
+
+
+class DeploymentTests(unittest.TestCase):
+    def test_proxy_https_host_and_demo_disabled(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with patch.dict(os.environ, {'REVIEW_DATA_DIR': directory,
+                                         'REVIEW_PUBLIC_HOST': 'review.example.org', 'REVIEW_ENABLE_DEMO': '0'}):
+                app = server_app()
+            client = app.test_client()
+            headers = {'Host': 'review.example.org', 'X-Forwarded-Proto': 'https', 'Origin': 'https://review.example.org'}
+            self.assertEqual(client.get('/healthz', headers=headers).json, {'status': 'ok'})
+            self.assertFalse(client.get('/api/public-config', headers=headers).json['demo_enabled'])
+            self.assertEqual(client.post('/api/demo', json={}, headers=headers).status_code, 404)
+            login = client.post('/api/admin/login', json={'key': app.config['ADMIN_KEY']}, headers=headers)
+            self.assertEqual(login.status_code, 200)
+            self.assertIn('Secure;', login.headers['Set-Cookie'])
+            self.assertEqual(client.get('/', headers={'Host': 'evil.example', 'X-Forwarded-Host': 'review.example.org'}).status_code, 400)
+
+    def test_backup_restore_and_retention(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source, destination, restored = root / 'source', root / 'backups', root / 'restored'
+            app = create_app({'DATA_DIR': str(source), 'TESTING': True})
+            for _ in range(3):
+                archive = backup(source, destination, retain=2)
+            self.assertEqual(len(list(destination.glob('review-*.tar.gz'))), 2)
+            restored.mkdir()
+            with tarfile.open(archive) as tar:
+                for name in ('review.sqlite3', 'admin-access.txt'):
+                    member = next(m for m in tar.getmembers() if m.name.lstrip('./') == name)
+                    (restored / name).write_bytes(tar.extractfile(member).read())
+            recovered = create_app({'DATA_DIR': str(restored), 'TESTING': True})
+            self.assertEqual(recovered.config['ADMIN_KEY'], app.config['ADMIN_KEY'])
+            self.assertEqual(recovered.test_client().get('/healthz').status_code, 200)
+            with sqlite3.connect(restored / 'review.sqlite3') as db:
+                self.assertEqual(db.execute('PRAGMA integrity_check').fetchone()[0], 'ok')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,31 @@
+[Unit]
+Description=Healthcare competence expert review
+After=network.target
+
+[Service]
+Type=simple
+User=competence-review
+Group=competence-review
+WorkingDirectory=/srv/competence-review/current/expert-review
+EnvironmentFile=/etc/competence-review/server.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=OPENBLAS_NUM_THREADS=1
+Environment=OMP_NUM_THREADS=1
+ExecStart=/srv/competence-review/venv/bin/gunicorn --bind 127.0.0.1:8768 --workers 1 --threads 4 --timeout 60 --forwarded-allow-ips=127.0.0.1 wsgi:server_app()
+Restart=on-failure
+RestartSec=5
+UMask=0077
+StateDirectory=competence-review
+StateDirectoryMode=0700
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/competence-review
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+MemoryMax=768M
+CPUQuota=100%
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

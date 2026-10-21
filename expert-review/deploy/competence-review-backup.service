@@ -1,0 +1,17 @@
+[Unit]
+Description=Consistent backup of competence review database
+After=competence-review.service
+
+[Service]
+Type=oneshot
+User=competence-review
+Group=competence-review
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/bin/python3 /srv/competence-review/current/expert-review/deploy/backup.py
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/var/lib/competence-review
+ReadWritePaths=/var/backups/competence-review

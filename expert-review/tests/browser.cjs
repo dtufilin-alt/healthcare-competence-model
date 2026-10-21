@@ -26,7 +26,7 @@ async function check(condition,message){assert(await condition,message)}
  await e.locator('#profile-form').waitFor();await e.screenshot({path:path.join(artifacts,'07-profile.png'),fullPage:true});
  await e.locator('input[name=organization]').fill('Демонстрационная организация');
  await e.locator('input[name=position]').fill('Руководитель');await e.locator('input[name=years]').fill('12');
- await e.locator('select[name=context]').selectOption('organization');await e.locator('input[name=levels]').fill('Подразделение, организация');
+ assert.equal(await e.locator('select[name=context]').count(),0);await e.locator('input[name=levels]').fill('Подразделение, организация');
  await e.locator('textarea[name=involvement]').fill('Не участвовал; заинтересованности нет');await e.locator('input[name=eligible_blocks][value="1"]').check();await e.locator('input[name=eligible_blocks][value="2"]').check();await e.locator('input[name=consent]').check();
  await e.getByRole('button',{name:'Сохранить и продолжить →'}).click();await e.getByRole('button',{name:'Начать оценку →'}).waitFor();await e.screenshot({path:path.join(artifacts,'08-instructions.png'),fullPage:true});await e.getByRole('button',{name:'Начать оценку →'}).click();
  await e.locator('input[name=relevance][value="4"]').check();await e.locator('input[name=clarity][value="3"]').check();await e.locator('input[name=observability][value="4"]').check();
@@ -52,7 +52,7 @@ async function check(condition,message){assert(await condition,message)}
    await page.getByText('Спасибо, ваши ответы приняты',{exact:true}).waitFor();
  }
  await completeCards(e);
- await a.locator('#admin-refresh').click();await a.getByRole('button',{name:'Оценки и замечания',exact:true}).click();await a.locator('#context-filter').selectOption('organization');
+ await a.locator('#admin-refresh').click();await a.getByRole('button',{name:'Оценки и замечания',exact:true}).click();assert.equal(await a.locator('#context-filter').count(),0);
  await a.getByText('Уточнить границы ответственности.',{exact:true}).waitFor();assert.equal(await a.locator('.group-row').count(),8);await a.screenshot({path:path.join(artifacts,'04-organizer-results.png'),fullPage:true});
  await a.getByRole('button',{name:'Раунды и версии',exact:true}).click();await a.locator('input[name=target]').first().check();await a.locator('textarea[name=rationale]').fill('Повторная оценка: уточнить границы ответственности в первом знании. Редакция пока сохранена для обсуждения.');
  await a.getByRole('button',{name:'Зафиксировать версию и открыть второй раунд'}).click();await a.locator('#confirmation button[value=yes]').click();await a.locator('#open-weights').waitFor();

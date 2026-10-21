@@ -40,7 +40,7 @@ class ReviewTests(unittest.TestCase):
         csrf = c.get('/api/state').json['csrf']
         profile = {'name': 'Эксперт', 'organization': 'Организация', 'position': 'Руководитель',
                    'levels': 'Регион', 'domains': 'Качество', 'involvement': 'Нет',
-                   'years': 10, 'context': context, 'consent': True, 'eligible_blocks': eligible or [1, 2]}
+                   'years': 10, 'consent': True, 'eligible_blocks': eligible or [1, 2]}
         self.assertEqual(c.post('/api/profile', json=profile, headers={'X-CSRF-Token': csrf}).status_code, 200)
         return c, csrf
 
@@ -59,7 +59,13 @@ class ReviewTests(unittest.TestCase):
         return s
 
     def test_balanced_persistent_assignments(self):
-        clients = [self.expert(f'balance{i}@example.org', eligible=list(range(1, 9))) for i in range(8)]
+        clients = []
+        for i in range(8):
+            clients.append(self.expert(f'balance{i}@example.org', eligible=list(range(1, 9))))
+            # Existing context values must not split the assignment pool.
+            with sqlite3.connect(Path(self.temp.name) / 'review.sqlite3') as db:
+                db.execute('UPDATE experts SET context=? WHERE email=?',
+                           ('system' if i % 2 else 'department', f'balance{i}@example.org'))
         counts = {i: 0 for i in range(1, 9)}
         for c, csrf in clients:
             s = c.get('/api/state').json
@@ -71,7 +77,7 @@ class ReviewTests(unittest.TestCase):
             other = next(k for k in items(s['model']) if k not in s['targets'])
             self.assertEqual(self.ep(c, csrf, 'answer', {'round': s['round']['id'], 'item': other, 'data': {'relevance': 4}, 'revision': 0}).status_code, 400)
         self.assertEqual(set(counts.values()), {2})
-        coverage = self.admin.get('/api/admin/state').json['coverage']['department']
+        coverage = self.admin.get('/api/admin/state').json['coverage']
         self.assertTrue(all(b['assigned'] == 2 and b['submitted'] == 0 for b in coverage))
 
     def test_replacement_preserves_draft_and_excludes_statistics(self):
@@ -126,7 +132,7 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.ep(c, csrf, 'answer', data).status_code, 409)
         self.assertEqual(self.ep(c, csrf, 'submit', {'round': s['round']['id']}).status_code, 400)
         p = c.get('/api/state').json['profile']
-        self.assertEqual(self.ep(c, csrf, 'profile', dict(p, context='system')).status_code, 409)
+        self.assertEqual(self.ep(c, csrf, 'profile', dict(p, context='system')).status_code, 200)
         report = self.admin.get('/api/admin/results?context=department').json['report']
         self.assertEqual(report['submitted'], 0)
         self.fill(c, csrf, na=True)
@@ -174,18 +180,21 @@ class ReviewTests(unittest.TestCase):
         self.assertTrue(self.admin.get('/api/admin/export?format=csv').data.startswith(b'\xef\xbb\xbf'))
         self.assertEqual(self.ap('phase', {'phase': 'closed'}).status_code, 200)
 
-    def test_feedback_separated_by_context(self):
+    def test_feedback_pooled_across_legacy_contexts(self):
         clients = [self.expert(f'{i}@example.org') for i in range(3)]
         system, token = self.expert('sys@example.org', 'system')
         for c, csrf in clients:
             s = self.fill(c, csrf)
         self.fill(system, token, na=True)
+        with sqlite3.connect(Path(self.temp.name) / 'review.sqlite3') as db:
+            db.execute("UPDATE experts SET context='system' WHERE email='sys@example.org'")
         r = self.ap('round2', {'targets': [s['targets'][0]], 'rationale': 'Повторная оценка спорной формулировки.'})
         self.assertEqual(r.status_code, 200)
         fb = clients[0][0].get('/api/state').json['feedback']
-        self.assertEqual(fb['submitted'], 3)
+        self.assertEqual(fb['submitted'], 4)
         self.assertEqual(fb['items'][s['targets'][0]]['relevance']['n'], 3)
-        self.assertTrue(system.get('/api/state').json['feedback']['hidden'])
+        self.assertEqual(system.get('/api/state').json['feedback'], fb)
+        self.assertEqual(self.admin.get('/api/admin/results').json['report']['submitted'], 0)
 
 
 class CalculationTests(unittest.TestCase):

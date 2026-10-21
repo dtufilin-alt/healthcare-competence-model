@@ -181,7 +181,7 @@ def create_app(config=None):
 
     def choose_blocks(e, candidates, count, keep=()):
         coverage = {b: 0 for b in candidates}
-        for row in rows('SELECT a.blocks FROM assignments a JOIN experts e ON e.id=a.expert WHERE e.study=? AND e.context=? AND e.id!=?', (e['study'], e['context'], e['id'])):
+        for row in rows('SELECT a.blocks FROM assignments a JOIN experts e ON e.id=a.expert WHERE e.study=? AND e.id!=?', (e['study'], e['id'])):
             for b in json.loads(row['blocks']):
                 if b in coverage:
                     coverage[b] += 1
@@ -212,7 +212,7 @@ def create_app(config=None):
         return bool(one('SELECT 1 FROM submissions WHERE expert=? AND round=?', (eid, rid)))
 
     def profile_ready(e):
-        return bool(json.loads(e['profile']).get('consent')) and e['context'] in CONTEXTS
+        return bool(json.loads(e['profile']).get('consent'))
 
     def require_round(e, r, d=None):
         study = one('SELECT * FROM studies WHERE id=?', (e['study'],))
@@ -335,7 +335,8 @@ def create_app(config=None):
             prev = one('SELECT * FROM rounds WHERE study=? AND number=1', (e['study'],))
             result['previous_model'] = json.loads(one('SELECT payload FROM versions WHERE id=?', (prev['version'],))['payload'])
             result['previous_answers'] = answers_for(e['id'], prev['id'])
-            feedback = json.loads(r['feedback']).get(e['context'], {})
+            saved_feedback = json.loads(r['feedback'])
+            feedback = saved_feedback.get('all', saved_feedback.get(e['context'], {}))
             # Privacy threshold applies per assigned item, not to the whole context panel.
             feedback = dict(feedback)
             feedback['items'] = {k: v for k, v in feedback.get('items', {}).items() if max((m.get('assigned_submitted', 0) for m in v.values()), default=0) >= 3}
@@ -351,17 +352,19 @@ def create_app(config=None):
         required = ('name', 'organization', 'position', 'domains', 'levels', 'involvement')
         if any(not isinstance(d.get(k), str) or not 1 <= len(d[k].strip()) <= 2000 for k in required):
             fail('Заполните все поля профиля.')
-        if d.get('context') not in CONTEXTS or type(d.get('years')) is not int or not 0 <= d['years'] <= 80 or d.get('consent') is not True:
-            fail('Укажите контекст, стаж и подтвердите участие.')
+        if type(d.get('years')) is not int or not 0 <= d['years'] <= 80 or d.get('consent') is not True:
+            fail('Укажите стаж и подтвердите участие.')
         eligible = d.get('eligible_blocks')
         if not isinstance(eligible, list) or any(type(b) is not int or b not in range(1, 9) for b in eligible) or len(set(eligible)) < 2:
             fail('Отметьте минимум два блока, в которых у вас достаточно опыта.')
         existing = assigned_blocks(g.expert['id'])
-        if existing and (d['context'] != g.expert['context'] or not set(existing).issubset(eligible)):
-            fail('Контекст зафиксирован после начала оценки. Обратитесь к организатору.', 409)
-        db().execute('UPDATE experts SET name=?,context=?,profile=? WHERE id=?', (d['name'].strip(), d['context'], encode({k: d[k] for k in (*required, 'context', 'years', 'consent', 'eligible_blocks')}), g.expert['id']))
+        if existing and not set(existing).issubset(eligible):
+            fail('Сохраните назначенные блоки среди областей опыта.', 409)
+        saved_profile = json.loads(g.expert['profile'])
+        saved_profile.update({k: d[k] for k in (*required, 'years', 'consent', 'eligible_blocks')})
+        db().execute('UPDATE experts SET name=?,profile=? WHERE id=?', (d['name'].strip(), encode(saved_profile), g.expert['id']))
         if not existing:
-            e = dict(g.expert, context=d['context'])
+            e = dict(g.expert)
             chosen = choose_blocks(e, sorted(set(eligible)), 2)
             insert('INSERT INTO assignments(expert,blocks,created) VALUES(?,?,?)', (e['id'], encode(chosen), time.time()))
             log('blocks_assigned', {'expert': e['id'], 'blocks': chosen, 'context': e['context']})
@@ -467,13 +470,12 @@ def create_app(config=None):
             a = answers_for(e['id'], r['id'])
             keys = round_keys(r, e['id'])
             es.append(dict(dict(e), profile=json.loads(e['profile']), blocks=assigned_blocks(e['id']), completed=sum(complete(k, v['data']) for k, v in a.items() if k in keys), total=len(keys), submitted=submitted(e['id'], r['id'])))
-        coverage = {context: [] for context in CONTEXTS}
-        for context in CONTEXTS:
-            for b in model['blocks']:
-                key = 'block:' + str(b['number'])
-                assigned = [e for e in es if e['context'] == context and key in round_keys(r, e['id'])]
-                started = sum(any(k == key or k.startswith(f'b{b["number"]}:') for k in answers_for(e['id'], r['id'])) for e in assigned)
-                coverage[context].append({'block': b['number'], 'title': b['title'], 'assigned': len(assigned), 'started': started, 'submitted': sum(e['submitted'] for e in assigned)})
+        coverage = []
+        for b in model['blocks']:
+            key = 'block:' + str(b['number'])
+            assigned = [e for e in es if key in round_keys(r, e['id'])]
+            started = sum(any(k == key or k.startswith(f'b{b["number"]}:') for k in answers_for(e['id'], r['id'])) for e in assigned)
+            coverage.append({'block': b['number'], 'title': b['title'], 'assigned': len(assigned), 'started': started, 'submitted': sum(e['submitted'] for e in assigned)})
         return jsonify(csrf=g.session['csrf'], study=dict(study), round=dict(r), model=model, contexts=CONTEXTS, experts=es,
                        coverage=coverage,
                        rounds=[dict(x) for x in rows('SELECT id,number,version,status FROM rounds WHERE study=?', (study['id'],))])
@@ -514,12 +516,9 @@ def create_app(config=None):
             if not r:
                 fail('Раунд не найден.', 404)
             model = json.loads(one('SELECT payload FROM versions WHERE id=?', (r['version'],))['payload'])
-        context = request.args.get('context', 'department')
-        if context not in CONTEXTS:
-            fail('Выберите контекст.')
-        report = stats(r, model, context)
+        report = stats(r, model)
         comments = []
-        for e in rows('SELECT e.* FROM experts e JOIN submissions s ON s.expert=e.id WHERE s.round=? AND e.context=?', (r['id'], context)):
+        for e in rows('SELECT e.* FROM experts e JOIN submissions s ON s.expert=e.id WHERE s.round=?', (r['id'],)):
             for k, a in answers_for(e['id'], r['id']).items():
                 if k not in round_keys(r, e['id']):
                     continue
@@ -529,8 +528,8 @@ def create_app(config=None):
                 for field in ('missing', 'duplicates'):
                     if value.get(field):
                         comments.append({'item': k, 'expert': e['id'], 'target': field, 'kind': field, 'text': value[field]})
-        ps = [json.loads(p['result']) for p in rows('SELECT p.result FROM priorities p JOIN experts e ON e.id=p.expert WHERE e.study=? AND e.context=? AND p.version=? AND p.submitted=1', (study['id'], context, r['version']))]
-        return jsonify(report=report, comments=comments, priorities=aggregate_weights(ps), model=model, round=dict(r), context=context)
+        ps = [json.loads(p['result']) for p in rows('SELECT p.result FROM priorities p JOIN experts e ON e.id=p.expert WHERE e.study=? AND p.version=? AND p.submitted=1', (study['id'], r['version']))]
+        return jsonify(report=report, comments=comments, priorities=aggregate_weights(ps), model=model, round=dict(r))
 
     @app.post('/api/admin/round2')
     @auth('admin')
@@ -556,7 +555,7 @@ def create_app(config=None):
         rationale = d.get('rationale', '')
         if not isinstance(rationale, str) or not 10 <= len(rationale.strip()) <= 20000:
             fail('Добавьте обоснование изменений и обезличенную обратную связь (10–20000 символов).')
-        feedback = {context: stats(r, old, context) for context in CONTEXTS}
+        feedback = {'all': stats(r, old)}
         vid = insert('INSERT INTO versions(study,payload,hash,created) VALUES(?,?,?,?)', (study['id'], encode(model), digest(encode(model)), time.time()))
         db().execute("UPDATE rounds SET status='closed' WHERE id=?", (r['id'],))
         insert('INSERT INTO rounds(study,number,version,targets,status,feedback,rationale) VALUES(?,2,?,?,?,?,?)', (study['id'], vid, encode(targets), 'open', encode(feedback), rationale))

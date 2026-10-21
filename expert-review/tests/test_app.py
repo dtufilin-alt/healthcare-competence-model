@@ -63,7 +63,7 @@ class ReviewTests(unittest.TestCase):
         for i in range(8):
             clients.append(self.expert(f'balance{i}@example.org', eligible=list(range(1, 9))))
             # Existing context values must not split the assignment pool.
-            with sqlite3.connect(Path(self.temp.name) / 'review.sqlite3') as db:
+            with closing(sqlite3.connect(Path(self.temp.name) / 'review.sqlite3')) as db, db:
                 db.execute('UPDATE experts SET context=? WHERE email=?',
                            ('system' if i % 2 else 'department', f'balance{i}@example.org'))
         counts = {i: 0 for i in range(1, 9)}
@@ -186,7 +186,7 @@ class ReviewTests(unittest.TestCase):
         for c, csrf in clients:
             s = self.fill(c, csrf)
         self.fill(system, token, na=True)
-        with sqlite3.connect(Path(self.temp.name) / 'review.sqlite3') as db:
+        with closing(sqlite3.connect(Path(self.temp.name) / 'review.sqlite3')) as db, db:
             db.execute("UPDATE experts SET context='system' WHERE email='sys@example.org'")
         r = self.ap('round2', {'targets': [s['targets'][0]], 'rationale': 'Повторная оценка спорной формулировки.'})
         self.assertEqual(r.status_code, 200)

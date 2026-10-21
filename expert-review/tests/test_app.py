@@ -8,6 +8,7 @@ import os
 import sqlite3
 import tarfile
 from unittest.mock import patch
+from contextlib import closing
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from app import create_app
@@ -241,7 +242,7 @@ class DeploymentTests(unittest.TestCase):
             recovered = create_app({'DATA_DIR': str(restored), 'TESTING': True})
             self.assertEqual(recovered.config['ADMIN_KEY'], app.config['ADMIN_KEY'])
             self.assertEqual(recovered.test_client().get('/healthz').status_code, 200)
-            with sqlite3.connect(restored / 'review.sqlite3') as db:
+            with closing(sqlite3.connect(restored / 'review.sqlite3')) as db:
                 self.assertEqual(db.execute('PRAGMA integrity_check').fetchone()[0], 'ok')
 
 

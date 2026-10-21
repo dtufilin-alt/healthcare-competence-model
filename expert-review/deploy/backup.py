@@ -3,6 +3,7 @@ import os
 import shutil
 import sqlite3
 import tempfile
+from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -14,8 +15,8 @@ def backup(source, destination, retain=14):
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     with tempfile.TemporaryDirectory(dir=destination, prefix='.pending-') as folder:
         folder = Path(folder)
-        with sqlite3.connect(f'file:{source / "review.sqlite3"}?mode=ro', uri=True) as live:
-            with sqlite3.connect(folder / 'review.sqlite3') as snap:
+        with closing(sqlite3.connect(f'file:{source / "review.sqlite3"}?mode=ro', uri=True)) as live:
+            with closing(sqlite3.connect(folder / 'review.sqlite3')) as snap:
                 live.backup(snap)
                 if snap.execute('PRAGMA integrity_check').fetchone()[0] != 'ok':
                     raise RuntimeError('Backup integrity check failed')

@@ -25,6 +25,14 @@ def digest(x):
     return hashlib.sha256(x.encode()).hexdigest()
 
 
+def public_expert(e):
+    result = dict(e)
+    # Keep the legacy UNIQUE(study,email) schema without inventing email addresses.
+    if result['email'].startswith('no-email:'):
+        result['email'] = ''
+    return result
+
+
 def create_app(config=None):
     app = Flask(__name__, static_folder='static', static_url_path='/static')
     app.config.update(DATA_DIR=str(ROOT / '.data'), MODEL=str(ROOT.parent / 'model-content.json'),
@@ -323,7 +331,7 @@ def create_app(config=None):
         study = dict(one('SELECT * FROM studies WHERE id=?', (e['study'],)))
         r, model = current(e['study'])
         p = one('SELECT * FROM priorities WHERE expert=? AND version=?', (e['id'], r['version']))
-        result = {'csrf': g.session['csrf'], 'study': study, 'expert': dict(e), 'profile': json.loads(e['profile']),
+        result = {'csrf': g.session['csrf'], 'study': study, 'expert': public_expert(e), 'profile': json.loads(e['profile']),
                   'contexts': CONTEXTS, 'model': model, 'round': dict(r), 'targets': [k for k in round_keys(r, e['id']) if not k.startswith('block:')],
                   'assigned_blocks': assigned_blocks(e['id']), 'content_finished': content_finished(e, r),
                   'answers': answers_for(e['id'], r['id']), 'submitted': submitted(e['id'], r['id']),
@@ -469,7 +477,7 @@ def create_app(config=None):
         for e in rows('SELECT * FROM experts WHERE study=? ORDER BY id', (study['id'],)):
             a = answers_for(e['id'], r['id'])
             keys = round_keys(r, e['id'])
-            es.append(dict(dict(e), profile=json.loads(e['profile']), blocks=assigned_blocks(e['id']), completed=sum(complete(k, v['data']) for k, v in a.items() if k in keys), total=len(keys), submitted=submitted(e['id'], r['id'])))
+            es.append(dict(public_expert(e), profile=json.loads(e['profile']), blocks=assigned_blocks(e['id']), completed=sum(complete(k, v['data']) for k, v in a.items() if k in keys), total=len(keys), submitted=submitted(e['id'], r['id'])))
         coverage = []
         for b in model['blocks']:
             key = 'block:' + str(b['number'])
@@ -487,10 +495,18 @@ def create_app(config=None):
         d = body()
         study = real_study()
         email, name = d.get('email', ''), d.get('name', '')
-        if not isinstance(email, str) or not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', email) or len(email) > 254 or not isinstance(name, str) or not 1 <= len(name.strip()) <= 200:
-            fail('Укажите имя и корректный email.')
+        if not isinstance(email, str) or len(email) > 254 or (email.strip() and not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', email.strip())) or not isinstance(name, str) or not 1 <= len(name.strip()) <= 200:
+            fail('Укажите имя; email можно оставить пустым.')
         email = email.strip().lower()
-        e = one('SELECT * FROM experts WHERE study=? AND email=?', (study['id'], email))
+        eid = d.get('expert_id')
+        if eid is not None:
+            if type(eid) is not int:
+                fail('Некорректный ID эксперта.')
+            e = one('SELECT * FROM experts WHERE study=? AND id=?', (study['id'], eid))
+            if not e:
+                fail('Эксперт не найден.', 404)
+        else:
+            e = one('SELECT * FROM experts WHERE study=? AND email=?', (study['id'], email)) if email else None
         if e:
             eid = e['id']
             db().execute('UPDATE invitations SET revoked=1 WHERE expert=?', (eid,))
@@ -498,7 +514,7 @@ def create_app(config=None):
         else:
             if study['phase'] != 'content':
                 fail('Новых участников добавляют в первом раунде. Сейчас можно только переиздать существующее приглашение.')
-            eid = insert('INSERT INTO experts(study,email,name) VALUES(?,?,?)', (study['id'], email, name.strip()))
+            eid = insert('INSERT INTO experts(study,email,name) VALUES(?,?,?)', (study['id'], email or 'no-email:' + secrets.token_hex(16), name.strip()))
         token = secrets.token_urlsafe(32)
         insert('INSERT INTO invitations(expert,hash,expires) VALUES(?,?,?)', (eid, digest(token), time.time() + 30 * 86400))
         log('invitation_created', {'expert': eid})

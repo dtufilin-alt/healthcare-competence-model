@@ -80,6 +80,23 @@ class ReviewTests(unittest.TestCase):
         coverage = self.admin.get('/api/admin/state').json['coverage']
         self.assertTrue(all(b['assigned'] == 2 and b['submitted'] == 0 for b in coverage))
 
+    def test_invitations_without_email_and_reissue_by_id(self):
+        first = self.ap('invitations', {'name': 'Эксперт без почты'}).json
+        second = self.ap('invitations', {'name': 'Эксперт без почты', 'email': ''}).json
+        self.assertNotEqual(first['expert'], second['expert'])
+        c = self.app.test_client()
+        token = first['link'].split('#invite=')[1]
+        self.assertEqual(c.post('/api/invite', json={'token': token}).status_code, 200)
+        self.assertEqual(c.get('/api/state').json['expert']['email'], '')
+        state = self.admin.get('/api/admin/state').json
+        self.assertTrue(all(e['email'] == '' for e in state['experts']))
+        renewed = self.ap('invitations', {'name': 'Эксперт без почты', 'expert_id': first['expert']})
+        self.assertEqual(renewed.status_code, 200)
+        self.assertEqual(renewed.json['expert'], first['expert'])
+        self.assertEqual(c.get('/api/state').status_code, 401)
+        self.assertEqual(c.post('/api/invite', json={'token': token}).status_code, 401)
+        self.assertEqual(self.ap('invitations', {'name': 'Другой', 'expert_id': 999999}).status_code, 404)
+
     def test_replacement_preserves_draft_and_excludes_statistics(self):
         c, csrf = self.expert(eligible=list(range(1, 9)))
         s = c.get('/api/state').json

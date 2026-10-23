@@ -20,10 +20,10 @@ async function check(condition,message){assert(await condition,message)}
  await a.getByRole('button',{name:'Кабинет организатора →'}).click();
  await a.locator('input[name=key]').fill('browser-test-only');await a.getByRole('button',{name:'Войти',exact:true}).click();
  await a.getByRole('button',{name:'Создать приглашение →'}).click();
- await a.locator('input[name=name]').fill('Тестовый эксперт');await a.locator('input[name=email]').fill('expert@example.org');await a.getByRole('button',{name:'Создать персональную ссылку'}).click();
- const invite=await a.locator('#invite-link').inputValue();
+ await a.locator('input[name=name]').fill('Тестовый эксперт');await a.locator('input[name=email]').fill('expert@example.org');await a.locator('#invitation input[name=organization]').fill('Институт');await a.locator('#invitation input[name=position]').fill('Директор');await a.getByRole('button',{name:'Создать персональную ссылку'}).click();
+ const invite=await a.locator('#invite-link').inputValue();await ac.grantPermissions(['clipboard-read','clipboard-write']);await a.locator('[data-copy-invite]').click();assert.equal(await a.evaluate(()=>navigator.clipboard.readText()),invite);await a.locator('.expert-prefill').locator('..').locator('summary').click();await a.locator('.expert-prefill input[name=position]').fill('Советник');await a.locator('.expert-prefill button').click();await a.waitForFunction(()=>document.querySelector('#notice').textContent.includes('сохранены'));
  await e.goto(invite);
- await e.locator('#profile-form').waitFor();await e.screenshot({path:path.join(artifacts,'07-profile.png'),fullPage:true});
+ await e.locator('#profile-form').waitFor();assert.equal(await e.locator('input[name=organization]').inputValue(),'Институт');assert.equal(await e.locator('input[name=position]').inputValue(),'Советник');await e.screenshot({path:path.join(artifacts,'07-profile.png'),fullPage:true});
  await e.locator('input[name=organization]').fill('Демонстрационная организация');
  await e.locator('input[name=position]').fill('Руководитель');await e.locator('input[name=years]').fill('12');
  assert.equal(await e.locator('select[name=context]').count(),0);await e.locator('input[name=levels]').fill('Подразделение, организация');

@@ -97,6 +97,31 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(c.post('/api/invite', json={'token': token}).status_code, 401)
         self.assertEqual(self.ap('invitations', {'name': 'Другой', 'expert_id': 999999}).status_code, 404)
 
+    def test_reusable_admin_link_and_editable_prefill(self):
+        invitation = self.ap('invitations', {'name': 'Эксперт', 'organization': 'Институт', 'position': 'Директор'}).json
+        eid = invitation['expert']
+        state = self.admin.get('/api/admin/state').json
+        self.assertEqual(state['experts'][0]['invitation_link'], invitation['link'])
+        c = self.app.test_client()
+        token = invitation['link'].split('#invite=')[1]
+        c.post('/api/invite', json={'token': token})
+        expert_state = c.get('/api/state').json
+        self.assertEqual(expert_state['profile']['organization'], 'Институт')
+        self.assertNotIn('consent', expert_state['profile'])
+        self.assertNotIn(token, json.dumps(expert_state))
+        self.assertEqual(c.post('/api/admin/expert-profile', json={'expert_id': eid, 'organization': 'X', 'position': 'Y'}).status_code, 401)
+        self.assertEqual(self.ap('expert-profile', {'expert_id': eid, 'organization': 'Новое место', 'position': 'Советник'}).status_code, 200)
+        p = dict(c.get('/api/state').json['profile'], name='Эксперт', organization='Исправлено экспертом',
+                 levels='Регион', domains='Управление', involvement='Нет', years=10, consent=True, eligible_blocks=[1,2])
+        self.assertEqual(self.ep(c, expert_state['csrf'], 'profile', p).status_code, 200)
+        row = self.admin.get('/api/admin/state').json['experts'][0]
+        self.assertEqual(row['profile']['organization'], 'Исправлено экспертом')
+        self.assertEqual(row['invitation_link'], invitation['link'])
+        self.assertNotIn(token, self.admin.get('/api/admin/export').get_data(as_text=True))
+        recreated = create_app({'TESTING': True, 'DATA_DIR': self.temp.name, 'ADMIN_KEY': 'test-access-key'}).test_client()
+        recreated.post('/api/admin/login', json={'key': 'test-access-key'})
+        self.assertEqual(recreated.get('/api/admin/state').json['experts'][0]['invitation_link'], invitation['link'])
+
     def test_replacement_preserves_draft_and_excludes_statistics(self):
         c, csrf = self.expert(eligible=list(range(1, 9)))
         s = c.get('/api/state').json

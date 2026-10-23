@@ -89,6 +89,8 @@ def create_app(config=None):
         CREATE TABLE IF NOT EXISTS audit(id INTEGER PRIMARY KEY, action TEXT NOT NULL, details TEXT NOT NULL, created REAL NOT NULL);
         CREATE TABLE IF NOT EXISTS assignments(expert INTEGER PRIMARY KEY REFERENCES experts(id), blocks TEXT NOT NULL, excluded TEXT NOT NULL DEFAULT '[]', created REAL NOT NULL);
         ''')
+        if 'token' not in {r['name'] for r in rows('PRAGMA table_info(invitations)')}:
+            db().execute('ALTER TABLE invitations ADD COLUMN token TEXT')
         if not one('SELECT id FROM studies WHERE demo=0'):
             model = validate_model(json.loads(Path(app.config['MODEL']).read_text()))
             sid = insert('INSERT INTO studies(demo) VALUES(0)')
@@ -478,6 +480,9 @@ def create_app(config=None):
             a = answers_for(e['id'], r['id'])
             keys = round_keys(r, e['id'])
             es.append(dict(public_expert(e), profile=json.loads(e['profile']), blocks=assigned_blocks(e['id']), completed=sum(complete(k, v['data']) for k, v in a.items() if k in keys), total=len(keys), submitted=submitted(e['id'], r['id'])))
+            invitation = one('SELECT token,expires FROM invitations WHERE expert=? AND revoked=0 AND expires>? ORDER BY id DESC LIMIT 1', (e['id'], time.time()))
+            es[-1]['invitation_link'] = request.host_url + '#invite=' + invitation['token'] if invitation and invitation['token'] else None
+            es[-1]['invitation_expires'] = invitation['expires'] if invitation else None
         coverage = []
         for b in model['blocks']:
             key = 'block:' + str(b['number'])
@@ -493,6 +498,12 @@ def create_app(config=None):
     def invitations():
         import re
         d = body()
+        prefill = {}
+        for field in ('organization', 'position'):
+            if field in d:
+                if not isinstance(d[field], str) or len(d[field]) > 2000:
+                    fail('Проверьте организацию и должность.')
+                prefill[field] = d[field].strip()
         study = real_study()
         email, name = d.get('email', ''), d.get('name', '')
         if not isinstance(email, str) or len(email) > 254 or (email.strip() and not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', email.strip())) or not isinstance(name, str) or not 1 <= len(name.strip()) <= 200:
@@ -515,11 +526,35 @@ def create_app(config=None):
             if study['phase'] != 'content':
                 fail('Новых участников добавляют в первом раунде. Сейчас можно только переиздать существующее приглашение.')
             eid = insert('INSERT INTO experts(study,email,name) VALUES(?,?,?)', (study['id'], email or 'no-email:' + secrets.token_hex(16), name.strip()))
+        if prefill:
+            profile = json.loads(one('SELECT profile FROM experts WHERE id=?', (eid,))['profile'])
+            profile.update(prefill)
+            db().execute('UPDATE experts SET profile=? WHERE id=?', (encode(profile), eid))
         token = secrets.token_urlsafe(32)
-        insert('INSERT INTO invitations(expert,hash,expires) VALUES(?,?,?)', (eid, digest(token), time.time() + 30 * 86400))
+        insert('INSERT INTO invitations(expert,hash,expires,token) VALUES(?,?,?,?)', (eid, digest(token), time.time() + 30 * 86400, token))
         log('invitation_created', {'expert': eid})
         db().commit()
         return jsonify(link=request.host_url + '#invite=' + token, expert=eid)
+
+    @app.post('/api/admin/expert-profile')
+    @auth('admin')
+    def admin_expert_profile():
+        d = body()
+        if type(d.get('expert_id')) is not int:
+            fail('Некорректный ID эксперта.')
+        fields = ('organization', 'position')
+        if any(not isinstance(d.get(k), str) or len(d[k]) > 2000 for k in fields):
+            fail('Проверьте организацию и должность.')
+        db().execute('BEGIN IMMEDIATE')
+        e = one('SELECT * FROM experts WHERE study=? AND id=?', (real_study()['id'], d['expert_id']))
+        if not e:
+            fail('Эксперт не найден.', 404)
+        profile = json.loads(e['profile'])
+        profile.update({k: d[k].strip() for k in fields})
+        db().execute('UPDATE experts SET profile=? WHERE id=?', (encode(profile), e['id']))
+        log('expert_profile_prefilled', {'expert': e['id']})
+        db().commit()
+        return jsonify(ok=True)
 
     @app.get('/api/admin/results')
     @auth('admin')

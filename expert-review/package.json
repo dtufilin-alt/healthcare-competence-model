@@ -1,0 +1,20 @@
+{
+  "name": "competence-review-design",
+  "version": "1.0.0",
+  "description": "Mednet Kit assets for the existing Flask interface",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build:design": "node tools/build-design.cjs",
+    "check": "node --check static/app.js && node tools/check-design.cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "commonjs",
+  "dependencies": {
+    "@mednet/css": "2.0.0",
+    "@mednet/tokens": "2.0.0"
+  },
+  "private": true
+}

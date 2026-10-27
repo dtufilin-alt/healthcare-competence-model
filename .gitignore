@@ -11,3 +11,4 @@ expert-review/test-artifacts/
 *.sqlite3-*
 *.log
 .DS_Store
+node_modules/
